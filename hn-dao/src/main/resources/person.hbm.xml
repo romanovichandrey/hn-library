@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="by.romanovich.it.pojos" auto-import="false" catalog="hn-library">
+<hibernate-mapping package="by.romanovich.it.pojos" auto-import="false" catalog="hn_library">
         <class name="Person" table="T_PERSON">
                 <id name="id" column="F_ID">
                      <generator class="native"/>
