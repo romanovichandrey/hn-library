@@ -1,2 +1,14 @@
 .idea
 target
+*.iml
+tmp
+.classpath
+.project
+.checkstyle
+build
+target
+bin
+.settings
+out
+/build
+/target/
