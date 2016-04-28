@@ -51,7 +51,7 @@ public class HibernateUtil {
      * Method for obtain object HibernateUtil implements pattern Singleton
      * @return HibernateUtil
      */
-    public HibernateUtil getUtil() {
+    public static HibernateUtil getUtil() {
         if(util == null) {
             util = new HibernateUtil();
         }
