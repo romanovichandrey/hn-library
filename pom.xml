@@ -48,16 +48,17 @@
       <version>5.1.38</version>
     </dependency>
 
-    <!-- Hibernate -->
+    <!-- Hibernate-core -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>5.1.0.Final</version>
+      <version>4.3.11.Final</version>
     </dependency>
+    <!-- Hibernate-entitymanager -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-      <version>5.1.0.Final</version>
+      <version>4.3.11.Final</version>
     </dependency>
 
     <!-- Pojos -->
