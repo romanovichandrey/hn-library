@@ -27,7 +27,9 @@ public class HibernateUtil {
     /** Constructor class to initialize SessionFactory. */
     private HibernateUtil() {
         try{
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            sessionFactory = new Configuration()
+                    .configure().setNamingStrategy(new CustomNamingStrategy())
+                    .buildSessionFactory();
         } catch (Throwable ex) {
             log.error("Initial SessionFactory creation faild. " + ex);
             throw new ExceptionInInitializerError(ex);
@@ -41,11 +43,12 @@ public class HibernateUtil {
     public Session getSession() {
         Session session = (Session)sessions.get();
         if(session == null) {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             sessions.set(session);
         }
         return session;
     }
+
 
     /**
      * Method for obtain object HibernateUtil implements pattern Singleton
