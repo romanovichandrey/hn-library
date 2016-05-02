@@ -19,6 +19,10 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>by.romanovich.it</groupId>
+      <artifactId>hn-domain</artifactId>
+    </dependency>
 
   </dependencies>
 </project>
