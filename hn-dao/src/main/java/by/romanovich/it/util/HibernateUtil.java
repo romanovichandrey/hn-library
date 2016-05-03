@@ -41,7 +41,7 @@ public class HibernateUtil {
      * @return Session
      */
     public Session getSession() {
-        Session session = (Session)sessions.get();
+        Session session = (Session) sessions.get();
         if(session == null) {
             session = sessionFactory.getCurrentSession();
             sessions.set(session);
@@ -49,12 +49,20 @@ public class HibernateUtil {
         return session;
     }
 
+    public void sessionClose() {
+        Session session = (Session) sessions.get();
+        if(session != null) {
+            session.close();
+            sessions.set(null);
+        }
+    }
+
 
     /**
      * Method for obtain object HibernateUtil implements pattern Singleton
      * @return HibernateUtil
      */
-    public static HibernateUtil getUtil() {
+    public synchronized static HibernateUtil getUtil() {
         if(util == null) {
             util = new HibernateUtil();
         }
