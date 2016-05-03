@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 @SequenceGenerator(name = "PK")
-public class SuperIntity implements Serializable {
+public class SuperEntity implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
@@ -19,7 +19,7 @@ public class SuperIntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PK")
     private long id;
 
-    public SuperIntity() {
+    public SuperEntity() {
     }
 
     public long getId() {
@@ -33,9 +33,9 @@ public class SuperIntity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SuperIntity)) return false;
+        if (!(o instanceof SuperEntity)) return false;
 
-        SuperIntity that = (SuperIntity) o;
+        SuperEntity that = (SuperEntity) o;
 
         if (id != that.id) return false;
 
