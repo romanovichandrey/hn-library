@@ -7,17 +7,41 @@ package by.romanovich.it.dao.exeptions;
  */
 public class DaoExeption extends Exception {
 
-    private Exception exception;
+    private DaoErrorCode code;
 
-    public DaoExeption(Exception exception) {
-        this.exception = exception;
+    private Object[] params;
+
+    private String message;
+
+    public DaoExeption(Exception e, DaoErrorCode code, Object... params) {
+        super(e);
+        this.code = code;
+        this.params = params;
+        this.message = String.format(code.toString(), params);
     }
 
-    public Exception getException() {
-        return exception;
+    public DaoErrorCode getCode() {
+        return code;
     }
 
-    public void setException(Exception exception) {
-        this.exception = exception;
+    public void setCode(DaoErrorCode code) {
+        this.code = code;
+    }
+
+    public Object[] getParams() {
+        return params;
+    }
+
+    public void setParams(Object[] params) {
+        this.params = params;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
