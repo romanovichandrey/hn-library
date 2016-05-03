@@ -1,11 +1,10 @@
 package by.romanovich.it.dao;
 
+import by.romanovich.it.dao.exeptions.DaoErrorCode;
 import by.romanovich.it.dao.exeptions.DaoExeption;
 import by.romanovich.it.util.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.io.Serializable;
 
@@ -21,76 +20,51 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
 
     private Class<T> type;
 
-    private Transaction transaction = null;
+    private HibernateUtil hibernateUtil = HibernateUtil.getUtil();
 
     public BaseDao(Class<T> type) {
         this.type = type;
     }
 
-    public BaseDao() {
-    }
-
-    @Override
-    public void saveOrOpdate(T t) throws DaoExeption {
-        try {
-            log.info("Save or Update Object");
-            Session session = HibernateUtil.getUtil().getSession();
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(t);
-            transaction.commit();
-        } catch (HibernateException e) {
-            log.error("Error save or update for Dao" + e);
-            transaction.rollback();
-            throw new DaoExeption(e);
-        }
-
-    }
-
     @Override
     public T get(PK id) throws DaoExeption {
         try {
-            Session session = HibernateUtil.getUtil().getSession();
-            transaction = session.beginTransaction();
-            log.info("Getting object with id: " + id);
-            T entity = (T) session.get(type, id);
-            transaction.commit();
+            log.info("Getting object with id" + id);
+            T entity = (T) hibernateUtil.getSession().get(type, id);
             return entity;
         } catch (HibernateException e) {
-            log.error("Get object failed." + e);
-            transaction.rollback();
-            throw new DaoExeption(e);
+            throw new DaoExeption(e, DaoErrorCode.NC_DAO_000);
         }
     }
 
     @Override
-    public T load(PK id) throws DaoExeption {
+    public PK add(T object) throws DaoExeption {
         try {
-            Session session = HibernateUtil.getUtil().getSession();
-            transaction = session.beginTransaction();
-            log.info("Load object" + id);
-            T entity = (T) session.load(type, id);
-            transaction.commit();
-            return entity;
-        }catch (HibernateException e) {
-            log.error("Error load object  failed" + e);
-            transaction.rollback();
-            throw new DaoExeption(e);
+            PK id = (PK) hibernateUtil.getSession().save(object);
+            log.info("Added object with id" + id);
+            return id;
+        } catch (HibernateException e) {
+            throw new DaoExeption(e, DaoErrorCode.NC_DAO_002);
         }
     }
 
     @Override
-    public void delete(T t) throws DaoExeption {
+    public void update(T object) throws DaoExeption {
         try {
-            Session session = HibernateUtil.getUtil().getSession();
-            transaction = session.beginTransaction();
-            log.info("Delete object");
-            session.delete(t);
-            transaction.commit();
+            log.info("Updating object");
+            hibernateUtil.getSession().saveOrUpdate(object);
         } catch (HibernateException e) {
-            log.error("Delete object failed" + e);
-            transaction.rollback();
-            throw new DaoExeption(e);
+            throw new DaoExeption(e, DaoErrorCode.NC_DAO_003);
         }
+    }
 
+    @Override
+    public void delete(T object) throws DaoExeption {
+        try {
+            log.info("Deleting object");
+            hibernateUtil.getSession().delete(object);
+        } catch (HibernateException e) {
+            throw new DaoExeption(e, DaoErrorCode.NC_DAO_004);
+        }
     }
 }
