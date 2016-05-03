@@ -1,6 +1,7 @@
 package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.exeptions.DaoExeption;
+
 import java.io.Serializable;
 
 /**
@@ -14,34 +15,40 @@ import java.io.Serializable;
 public interface Dao<T, PK extends Serializable> {
 
     /**
-     * This method creates an object from the database
-     * or update it if it does not exist
-     * @param t Entity object
-     * @throws DaoExeption
-     */
-    void saveOrOpdate(T t) throws DaoExeption;
-
-    /**
-     * This method loads the object from database
-     * @param id Entity identifier
-     * @return Return object is for pojos classes
+     * Getting T entity by id.
+     * @param id
+     * @return entity.
      * @throws DaoExeption
      */
     T get(PK id) throws DaoExeption;
 
     /**
-     * This method loads the object from database
-     * @param id Entity identifier
-     * @return Return object is for pojos classes
+     * Getting all T entity.
+     * @return
      * @throws DaoExeption
      */
-    T load(PK id) throws DaoExeption;
+    //List<T> getAll() throws DaoExeption;
 
     /**
-     * This method delete object from database
-     * @param t Entity object
+     * Adding T entity.
+     * @param object T entity.
+     * @return id T entity
      * @throws DaoExeption
      */
-    void delete(T t) throws DaoExeption;
+    PK add(T object) throws DaoExeption;
+
+    /**
+     * Updating T entity.
+     * @param object T entity.
+     * @throws DaoExeption
+     */
+    void update(T object) throws DaoExeption;
+
+    /**
+     * Deleting T entity.
+     * @param object T entity.
+     * @throws DaoExeption
+     */
+    void delete(T object) throws DaoExeption;
 
 }
