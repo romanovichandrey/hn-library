@@ -44,6 +44,13 @@ public class Adress implements Serializable {
     public Adress() {
     }
 
+    public Adress(String street, String city, String state, String country) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+    }
+
     public Long getId() {
         return id;
     }

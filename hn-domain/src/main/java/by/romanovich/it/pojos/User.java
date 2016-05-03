@@ -27,7 +27,19 @@ public class User extends SuperIntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Adress adress;
 
+    @OneToOne (mappedBy = "user", cascade = CascadeType.ALL)
+    private UserLogin userLogin;
+
     public User() {
+    }
+
+    public User(String firstname, String lastname, String telephone, String email, Adress adress, UserLogin userLogin) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.telephone = telephone;
+        this.email = email;
+        this.adress = adress;
+        this.userLogin = userLogin;
     }
 
     public String getFirstname() {
