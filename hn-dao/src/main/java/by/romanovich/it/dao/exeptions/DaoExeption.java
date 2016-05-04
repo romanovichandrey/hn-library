@@ -36,7 +36,6 @@ public class DaoExeption extends Exception {
         this.params = params;
     }
 
-    @Override
     public String getMessage() {
         return message;
     }
