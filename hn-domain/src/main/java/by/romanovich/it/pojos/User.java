@@ -3,12 +3,12 @@ package by.romanovich.it.pojos;
 import javax.persistence.*;
 
 /**
- *@see by.romanovich.it.pojos.SuperIntity
+ *@see SuperEntity
  * @author Romanovich Andrei
  * @version 1.0
  */
 @Entity
-public class User extends SuperIntity {
+public class User extends SuperEntity {
 
     private static final long serialVersionUID = 1L;
 
