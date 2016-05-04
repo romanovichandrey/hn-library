@@ -49,10 +49,13 @@ public class HibernateUtil {
         return session;
     }
 
+    /**
+     * Disconnect the session from its underlying JDBC connection
+     */
     public void sessionClose() {
         Session session = (Session) sessions.get();
         if(session != null) {
-            session.close();
+            session.disconnect();
             sessions.set(null);
         }
     }
