@@ -5,7 +5,7 @@ import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.util.HibernateUtil;
 import org.apache.log4j.Logger;
 
-public class AdressDao extends BaseDao {
+public class AdressDao extends BaseDao<Adress, Long> {
 
     private static Logger log = Logger.getLogger(BaseDao.class);
 
