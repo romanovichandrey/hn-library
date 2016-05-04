@@ -10,13 +10,12 @@ import java.io.Serializable;
  * @version 1.0
  */
 @MappedSuperclass
-@SequenceGenerator(name = "PK")
 public class SuperEntity implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PK")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     public SuperEntity() {
