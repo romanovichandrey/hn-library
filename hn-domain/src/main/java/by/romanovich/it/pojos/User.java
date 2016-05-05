@@ -1,6 +1,9 @@
 package by.romanovich.it.pojos;
 
+
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  *@see SuperEntity
@@ -8,9 +11,13 @@ import javax.persistence.*;
  * @version 1.0
  */
 @Entity
-public class User extends SuperEntity {
+public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final Long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column (name = "F_FIRSTNAME")
     private String firstname;
@@ -24,22 +31,36 @@ public class User extends SuperEntity {
     @Column (name = "F_EMAIL")
     private String email;
 
+    @Column (name = "F_LOGIN")
+    private String login;
+
+    @Column (name = "F_PASSWORD")
+    private String password;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Adress adress;
-
-    @OneToOne (mappedBy = "user", cascade = CascadeType.ALL)
-    private UserLogin userLogin;
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String telephone, String email, Adress adress, UserLogin userLogin) {
+    public User(String firstname, String lastname, String telephone,
+                String email, String login, String password)
+    {
         this.firstname = firstname;
         this.lastname = lastname;
         this.telephone = telephone;
         this.email = email;
-        this.adress = adress;
-        this.userLogin = userLogin;
+        this.login = login;
+        this.password = password;
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -74,6 +95,22 @@ public class User extends SuperEntity {
         this.email = email;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Adress getAdress() {
         return adress;
     }
@@ -94,6 +131,8 @@ public class User extends SuperEntity {
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
         if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (telephone != null ? !telephone.equals(user.telephone) : user.telephone != null) return false;
 
         return true;
@@ -106,6 +145,8 @@ public class User extends SuperEntity {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (adress != null ? adress.hashCode() : 0);
         return result;
     }
@@ -117,6 +158,8 @@ public class User extends SuperEntity {
                 ", lastname='" + lastname + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", adress=" + adress +
                 '}';
     }
