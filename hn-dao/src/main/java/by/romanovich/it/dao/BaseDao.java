@@ -5,6 +5,7 @@ import by.romanovich.it.dao.exeptions.DaoExeption;
 import by.romanovich.it.util.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 
@@ -20,7 +21,7 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
 
     private Class<T> type;
 
-    private HibernateUtil hibernateUtil = HibernateUtil.getUtil();
+    private Session session = HibernateUtil.getUtil().getSession();
 
     public BaseDao(Class<T> type) {
         this.type = type;
@@ -30,7 +31,7 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
     public T get(PK id) throws DaoExeption {
         try {
             log.info("Getting object with id" + id);
-            T entity = (T) hibernateUtil.getSession().get(type, id);
+            T entity = (T) session.get(type, id);
             return entity;
         } catch (HibernateException e) {
             throw new DaoExeption(e, DaoErrorCode.NC_DAO_000);
@@ -40,7 +41,7 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
     @Override
     public PK add(T object) throws DaoExeption {
         try {
-            PK id = (PK) hibernateUtil.getSession().save(object);
+            PK id = (PK) session.save(object);
             log.info("Added object with id" + id);
             return id;
         } catch (HibernateException e) {
@@ -52,7 +53,7 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
     public void update(T object) throws DaoExeption {
         try {
             log.info("Updating object");
-            hibernateUtil.getSession().saveOrUpdate(object);
+            session.saveOrUpdate(object);
         } catch (HibernateException e) {
             throw new DaoExeption(e, DaoErrorCode.NC_DAO_003);
         }
@@ -62,9 +63,10 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
     public void delete(T object) throws DaoExeption {
         try {
             log.info("Deleting object");
-            hibernateUtil.getSession().delete(object);
+            session.delete(object);
         } catch (HibernateException e) {
             throw new DaoExeption(e, DaoErrorCode.NC_DAO_004);
         }
     }
+
 }

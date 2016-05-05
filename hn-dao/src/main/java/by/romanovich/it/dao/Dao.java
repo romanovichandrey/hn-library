@@ -8,7 +8,6 @@ import java.io.Serializable;
  * This is interfafe for BaseDao class.
  * @see by.romanovich.it.dao.BaseDao
  * @param <T> This option is for pojos classes
- * @param <PK> This option is for primary key pojos classes
  * @author Romanovich Andrey
  * @version 1.0
  */
