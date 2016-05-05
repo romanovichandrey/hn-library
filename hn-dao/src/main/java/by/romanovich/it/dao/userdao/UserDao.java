@@ -2,19 +2,10 @@ package by.romanovich.it.dao.userdao;
 
 import by.romanovich.it.dao.BaseDao;
 import by.romanovich.it.pojos.User;
-import by.romanovich.it.util.HibernateUtil;
-import org.apache.log4j.Logger;
 
 public class UserDao extends BaseDao<User, Long> {
 
-    private static Logger log = Logger.getLogger(BaseDao.class);
-
-    private Class<User> userType;
-
-    private HibernateUtil hibernateUtil = HibernateUtil.getUtil();
-
-    public UserDao(Class type, Class<User> userType) {
+    public UserDao(Class<User> type) {
         super(type);
-        this.userType = userType;
     }
 }
