@@ -1,6 +1,7 @@
-package by.romanovich.it.dao.userdao;
+package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.BaseDao;
+import by.romanovich.it.dao.UserDao;
 import by.romanovich.it.dao.exeptions.DaoExeption;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
@@ -12,8 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Testing class UserDao. Create and testing sessionFactory
- * @see by.romanovich.it.dao.userdao.UserDao
+ * Testing class UserDao.
+ * @see by.romanovich.it.dao.UserDao
  * @author Romanovich Andrei
  * @version 1.0
  */
@@ -101,6 +102,10 @@ public class UserDaoTest extends Assert{
        assertNotNull(userIdResult);
     }
 
+    /**
+     * Testing userDao.get()
+     * @throws DaoExeption
+     */
     @Test
     public void testGet() throws DaoExeption {
         User userResult = null;
@@ -117,6 +122,10 @@ public class UserDaoTest extends Assert{
 
     }
 
+    /**
+     * Testing userDao.update()
+     * @throws DaoExeption
+     */
     @Test
     public void testUpdate() throws DaoExeption {
         user1.setPassword("test");
@@ -135,6 +144,10 @@ public class UserDaoTest extends Assert{
 
     }
 
+    /**
+     * Testing userDao.delete()
+     * @throws DaoExeption
+     */
     @Test
     public void testDelete() throws DaoExeption {
         User userResult = user2;
