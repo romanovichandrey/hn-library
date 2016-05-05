@@ -43,7 +43,7 @@ public class HibernateUtil {
     public Session getSession() {
         Session session = (Session) sessions.get();
         if(session == null) {
-            session = sessionFactory.getCurrentSession();
+            session = sessionFactory.openSession();
             sessions.set(session);
         }
         return session;
