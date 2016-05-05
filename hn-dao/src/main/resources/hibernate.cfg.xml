@@ -18,6 +18,6 @@
         <property name="hibernate.hbm2ddl.auto">validate</property>
         <mapping class="by.romanovich.it.pojos.User"/>
         <mapping class="by.romanovich.it.pojos.Adress"/>
-        <mapping class="by.romanovich.it.pojos.UserLogin"/>
+
     </session-factory>
 </hibernate-configuration>
