@@ -10,7 +10,8 @@ public enum  ServiceErrorCode {
     HN_SERV_001("Cannot add user"),
     HN_SERV_002("Cannot delete user"),
     HN_SERV_003("Cannot update user"),
-    HN_SERV_004("Cannot get user by login and password");
+    HN_SERV_004("Cannot get user by login and password"),
+    HN_SERV_005("Cannot get all users");
 
 
     private final String value;
