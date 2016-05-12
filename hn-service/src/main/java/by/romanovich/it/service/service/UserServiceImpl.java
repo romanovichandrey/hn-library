@@ -9,6 +9,8 @@ import by.romanovich.it.service.exeptions.ServiceErrorCode;
 import by.romanovich.it.service.exeptions.ServiceExeption;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 /**
  * Implementing UserService innterface.
  * Processing business-logic for work with User.
@@ -71,6 +73,19 @@ public class UserServiceImpl implements UserService {
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_004);
         }
         return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() throws ServiceExeption {
+        List<User> users = null;
+        try {
+            users = userDao.getAll();
+            for(User user : users)
+                log.info("Getting all users:" + user);
+            return users;
+        } catch (DaoException e) {
+            throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_005);
+        }
     }
 
     @Override

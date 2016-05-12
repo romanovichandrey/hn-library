@@ -3,6 +3,8 @@ package by.romanovich.it.service.service;
 import by.romanovich.it.pojos.User;
 import by.romanovich.it.service.exeptions.ServiceExeption;
 
+import java.util.List;
+
 /**
  * Interface for UserServiceImpl class.
  * @see by.romanovich.it.service.service.UserServiceImpl
@@ -35,6 +37,13 @@ public interface UserService {
      * @throws ServiceExeption
      */
     User getUserByLoginAndPassword(String login, String password) throws ServiceExeption;
+
+    /**
+     * This method getting all users
+     * @return list users
+     * @throws ServiceExeption
+     */
+    List<User> getAllUsers() throws ServiceExeption;
 
     /**
      * This method delete user by id.

@@ -10,6 +10,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Testing interface UserServiceImpl.
  * @author Romanovich Andrei
@@ -115,6 +118,28 @@ public class UserServiceImplTest extends Assert {
         assertNotNull(userService);
         userService = null;
         assertNull(userService);
+    }
+
+    /**
+     * Testing userService.getAllUsers()
+     * @throws by.romanovich.it.service.exeptions.ServiceExeption
+     */
+    @Test
+    public void testGetAllUsers() throws ServiceExeption {
+        List<User> users = null;
+        userService = UserServiceImpl.getUserService();
+        try {
+            session.beginTransaction();
+            users = userService.getAllUsers();
+            session.getTransaction().commit();
+        } catch (ServiceExeption e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        assertNotNull(users);
+        List<User> userTest = Arrays.asList(user1, user2);
+        assertEquals(userTest, users);
+
     }
 
     /**
