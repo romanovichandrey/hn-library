@@ -18,6 +18,9 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <mapping class="by.romanovich.it.pojos.User"/>
         <mapping class="by.romanovich.it.pojos.Adress"/>
+        <mapping class="by.romanovich.it.pojos.Category"/>
+        <mapping class="by.romanovich.it.pojos.Book"/>
+        <mapping class="by.romanovich.it.pojos.Autor"/>
 
     </session-factory>
 </hibernate-configuration>
