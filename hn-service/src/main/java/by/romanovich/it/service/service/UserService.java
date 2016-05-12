@@ -50,7 +50,7 @@ public interface UserService {
      * @return true if user successfully is delete.
      * @throws ServiceExeption
      */
-    Boolean deleteUserById(User user) throws ServiceExeption;
+    Boolean deleteUser(User user) throws ServiceExeption;
 
     /**
      * This method saving new user.

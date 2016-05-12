@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 /**
- * Implementing UserService innterface.
+ * Implementing UserService interface.
  * Processing business-logic for work with User.
  * @see by.romanovich.it.service.service.UserService
  * @author Romanovich Angrei
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean deleteUserById(User user) throws ServiceExeption {
+    public Boolean deleteUser(User user) throws ServiceExeption {
         try {
             userDao.delete(user);
             log.info("Deleting user:" + user);
