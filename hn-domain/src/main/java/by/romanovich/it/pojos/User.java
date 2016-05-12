@@ -4,9 +4,11 @@ package by.romanovich.it.pojos;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- *@see SuperEntity
+ * @see SuperEntity
  * @author Romanovich Andrei
  * @version 1.0
  */
@@ -35,6 +37,9 @@ public class User extends SuperEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Adress adress;
+
+    @OneToMany (mappedBy = "user")
+    private Set<Book> books;
 
     public User() {
     }
