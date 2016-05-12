@@ -11,13 +11,9 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Entity
-public class User implements Serializable {
+public class User extends SuperEntity {
 
     private static final Long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column (name = "F_FIRSTNAME")
     private String firstname;
@@ -53,14 +49,6 @@ public class User implements Serializable {
         this.login = login;
         this.password = password;
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstname() {

@@ -1,8 +1,6 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.BaseDao;
-import by.romanovich.it.dao.UserDao;
-import by.romanovich.it.dao.exeptions.DaoExeption;
+import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
 import by.romanovich.it.util.HibernateUtil;
@@ -14,13 +12,15 @@ import org.junit.Test;
 
 /**
  * Testing class UserDao.
- * @see by.romanovich.it.dao.UserDao
+ * @see UserDaoImpl
  * @author Romanovich Andrei
  * @version 1.0
  */
-public class UserDaoTest extends Assert{
+public class UserDaoImplTest extends Assert{
 
     private static BaseDao<User, Long> userDao = null;
+
+    private static UserDao userDaoImpl = null;
 
     private static Adress adress1 = null;
 
@@ -80,12 +80,12 @@ public class UserDaoTest extends Assert{
 
     /**
      * Testing userDao.add()
-     * @throws DaoExeption
+     * @throws DaoException
      */
    @Test
-    public void testAdd() throws DaoExeption {
+    public void testAdd() throws DaoException {
        Long userIdResult = null;
-       userDao = new UserDao(User.class);
+       userDao = new UserDaoImpl(User.class);
        try {
            session.beginTransaction();
            user1.setAdress(adress1);
@@ -95,7 +95,7 @@ public class UserDaoTest extends Assert{
            userIdResult = userDao.add(user1);
            userDao.add(user2);
            session.getTransaction().commit();
-       } catch (DaoExeption e) {
+       } catch (DaoException e) {
            e.printStackTrace();
            session.getTransaction().rollback();
        }
@@ -104,16 +104,16 @@ public class UserDaoTest extends Assert{
 
     /**
      * Testing userDao.get()
-     * @throws DaoExeption
+     * @throws DaoException
      */
     @Test
-    public void testGet() throws DaoExeption {
+    public void testGet() throws DaoException {
         User userResult = null;
         try {
             session.beginTransaction();
             userResult = userDao.get(user1.getId());
             session.getTransaction().commit();
-        } catch (DaoExeption e) {
+        } catch (DaoException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
@@ -124,10 +124,10 @@ public class UserDaoTest extends Assert{
 
     /**
      * Testing userDao.update()
-     * @throws DaoExeption
+     * @throws DaoException
      */
     @Test
-    public void testUpdate() throws DaoExeption {
+    public void testUpdate() throws DaoException {
         user1.setPassword("test");
         User userResult = null;
         try {
@@ -135,7 +135,7 @@ public class UserDaoTest extends Assert{
             userDao.update(user1);
             userResult = userDao.get(user1.getId());
             session.getTransaction().commit();
-        } catch (DaoExeption e) {
+        } catch (DaoException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
@@ -146,21 +146,41 @@ public class UserDaoTest extends Assert{
 
     /**
      * Testing userDao.delete()
-     * @throws DaoExeption
+     * @throws DaoException
      */
     @Test
-    public void testDelete() throws DaoExeption {
+    public void testDelete() throws DaoException {
         User userResult = user2;
         try {
             session.beginTransaction();
             userDao.delete(user2);
             userResult = userDao.get(user2.getId());
             session.getTransaction().commit();
-        } catch (DaoExeption e) {
+        } catch (DaoException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
         assertNull(userResult);
 
+    }
+
+    /**
+     * Testing userDao.getUserByLoginAndPassword
+     * @throws DaoException
+     */
+    @Test
+    public void testGetUserByLoginAndPassword() throws DaoException {
+        User userResult = null;
+        userDaoImpl = new UserDaoImpl(User.class);
+        try {
+            session.beginTransaction();
+            userResult = userDaoImpl.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
+            session.getTransaction().commit();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        assertNotNull(userResult);
+        assertEquals(user1, userResult);
     }
 }

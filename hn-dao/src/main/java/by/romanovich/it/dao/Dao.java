@@ -1,6 +1,6 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.exeptions.DaoExeption;
+import by.romanovich.it.dao.exeptions.DaoException;
 
 import java.io.Serializable;
 
@@ -17,14 +17,14 @@ public interface Dao<T, PK extends Serializable> {
      * Getting T entity by id.
      * @param id
      * @return entity.
-     * @throws DaoExeption
+     * @throws by.romanovich.it.dao.exeptions.DaoException
      */
-    T get(PK id) throws DaoExeption;
+    T get(PK id) throws DaoException;
 
     /**
      * Getting all T entity.
      * @return
-     * @throws DaoExeption
+     * @throws by.romanovich.it.dao.exeptions.DaoException
      */
     //List<T> getAll() throws DaoExeption;
 
@@ -32,22 +32,22 @@ public interface Dao<T, PK extends Serializable> {
      * Adding T entity.
      * @param object T entity.
      * @return id T entity
-     * @throws DaoExeption
+     * @throws by.romanovich.it.dao.exeptions.DaoException
      */
-    PK add(T object) throws DaoExeption;
+    PK add(T object) throws DaoException;
 
     /**
      * Updating T entity.
      * @param object T entity.
-     * @throws DaoExeption
+     * @throws by.romanovich.it.dao.exeptions.DaoException
      */
-    void update(T object) throws DaoExeption;
+    void update(T object) throws DaoException;
 
     /**
      * Deleting T entity.
      * @param object T entity.
-     * @throws DaoExeption
+     * @throws by.romanovich.it.dao.exeptions.DaoException
      */
-    void delete(T object) throws DaoExeption;
+    void delete(T object) throws DaoException;
 
 }

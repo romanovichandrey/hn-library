@@ -6,7 +6,8 @@ public enum  DaoErrorCode {
     NC_DAO_001("Cannot get list of object"),
     NC_DAO_002("Cannot add object"),
     NC_DAO_003("Cannot update object"),
-    NC_DAO_004("Cannot delete object");
+    NC_DAO_004("Cannot delete object"),
+    HN_DAO_005("Cannot get by login and password");
 
     private final String value;
 
