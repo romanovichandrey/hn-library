@@ -3,6 +3,7 @@ package by.romanovich.it.dao;
 import by.romanovich.it.dao.exeptions.DaoException;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is interfafe for BaseDao class.
@@ -23,10 +24,10 @@ public interface Dao<T, PK extends Serializable> {
 
     /**
      * Getting all T entity.
-     * @return
+     * @return List entity
      * @throws by.romanovich.it.dao.exeptions.DaoException
      */
-    //List<T> getAll() throws DaoExeption;
+    List<T> getAll() throws DaoException;
 
     /**
      * Adding T entity.

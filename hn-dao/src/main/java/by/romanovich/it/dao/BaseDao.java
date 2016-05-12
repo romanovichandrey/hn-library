@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Implementing Dao interface. Creating Dao generic
@@ -37,6 +38,17 @@ public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
             return entity;
         } catch (HibernateException e) {
             throw new DaoException(e, DaoErrorCode.NC_DAO_000);
+        }
+    }
+
+    @Override
+    public List<T> getAll() throws DaoException {
+        try {
+            log.info("Getting list of object");
+            List<T> list = getSession().createCriteria(type).list();
+            return list;
+        } catch (HibernateException e) {
+            throw new DaoException(e, DaoErrorCode.NC_DAO_001);
         }
     }
 
