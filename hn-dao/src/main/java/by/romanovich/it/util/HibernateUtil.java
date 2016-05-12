@@ -27,7 +27,9 @@ public class HibernateUtil {
     /** Constructor class to initialize SessionFactory. */
     private HibernateUtil() {
         try{
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            sessionFactory = new Configuration()
+                    .configure().setNamingStrategy(new CustomNamingStrategy())
+                    .buildSessionFactory();
         } catch (Throwable ex) {
             log.error("Initial SessionFactory creation faild. " + ex);
             throw new ExceptionInInitializerError(ex);
@@ -39,7 +41,7 @@ public class HibernateUtil {
      * @return Session
      */
     public Session getSession() {
-        Session session = (Session)sessions.get();
+        Session session = (Session) sessions.get();
         if(session == null) {
             session = sessionFactory.openSession();
             sessions.set(session);
@@ -48,10 +50,22 @@ public class HibernateUtil {
     }
 
     /**
+     * Disconnect the session from its underlying JDBC connection
+     */
+    public void sessionClose() {
+        Session session = (Session) sessions.get();
+        if(session != null) {
+            session.disconnect();
+            sessions.set(null);
+        }
+    }
+
+
+    /**
      * Method for obtain object HibernateUtil implements pattern Singleton
      * @return HibernateUtil
      */
-    public static HibernateUtil getUtil() {
+    public synchronized static HibernateUtil getUtil() {
         if(util == null) {
             util = new HibernateUtil();
         }
