@@ -1,8 +1,8 @@
-package by.romanovich.it.dao;
+package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
+import by.romanovich.it.service.exeptions.ServiceExeption;
 import by.romanovich.it.util.HibernateUtil;
 import org.hibernate.Session;
 import org.junit.AfterClass;
@@ -10,32 +10,22 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * Testing class UserDao.
- * @see UserDaoImpl
+ * Testing interface UserServiceImpl.
  * @author Romanovich Andrei
  * @version 1.0
  */
-public class UserDaoImplTest extends Assert{
+public class UserServiceImplTest extends Assert {
 
-    private static BaseDao<User, Long> userDao = null;
-
-    private static UserDao userDaoImpl = null;
+    private static UserService userService = null;
 
     private static Adress adress1 = null;
 
     private static Adress adress2 = null;
 
-    private static Adress adress3 = null;
-
     private static User user1 = null;
 
     private static User user2 = null;
-
-    private static User user3 = null;
 
     private static HibernateUtil hibernateUtil = null;
 
@@ -73,19 +63,6 @@ public class UserDaoImplTest extends Assert{
         String country_num2 = "Belarus";
         adress2 = new Adress(street_num2, city_num2, state_num2, country_num2);
         user2 = new User(firstname_num2, lastname_num2, telephone_num2, email_num2, login_num2, password_num2);
-
-        String firstname_num3 = "Sveta";
-        String lastname_num3 = "Kravchenco";
-        String telephone_num3 = "80334567856";
-        String email_num3 = "kravchenco@gmail.com";
-        String login_num3 = "user1";
-        String password_num3 = "test";
-        String street_num3 = "Serova";
-        String city_num3 = "Minsk";
-        String state_num3 = null;
-        String country_num3 = "Belarus";
-        adress3 = new Adress(street_num3, city_num3, state_num3, country_num3);
-        user3 = new User(firstname_num3, lastname_num3, telephone_num3, email_num3, login_num3, password_num3);
     }
 
     /**
@@ -95,141 +72,138 @@ public class UserDaoImplTest extends Assert{
     public static void clearHibernateUtil() {
         hibernateUtil.sessionClose();
         hibernateUtil = null;
-        userDao = null;
-        userDaoImpl = null;
+        userService = null;
         user1 = null;
         user2 = null;
-        user3 = null;
         adress1 = null;
         adress2 = null;
-        adress3 = null;
     }
 
     /**
-     * Testing userDao.add()
-     * @throws DaoException
+     * Testing userService.saveUser
+     * @throws ServiceExeption
      */
     @Test
-    public void testAdd() throws DaoException {
-        Long userIdResult = null;
-        userDao = new UserDaoImpl(User.class);
+    public void testSaveUser() throws ServiceExeption {
+        Boolean userSaveResult1 = false;
+        Boolean userSaveResult2 = false;
+        userService = UserServiceImpl.getUserService();
         try {
             session.beginTransaction();
             user1.setAdress(adress1);
             adress1.setUser(user1);
             user2.setAdress(adress2);
             adress2.setUser(user2);
-            user3.setAdress(adress3);
-            adress3.setUser(user3);
-            userIdResult = userDao.add(user1);
-            userDao.add(user2);
-            userDao.add(user3);
+            userSaveResult1 = userService.saveUser(user1);
+            userSaveResult2 = userService.saveUser(user2);
             session.getTransaction().commit();
-        } catch (DaoException e) {
+        } catch (ServiceExeption e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        }
+        assertTrue(userSaveResult1);
+        assertTrue(userSaveResult2);
+
+    }
+
+    /**
+     * Testing userService.getUserService()
+     */
+    @Test
+    public void testGetUserService() {
+        userService = UserServiceImpl.getUserService();
+        assertNotNull(userService);
+        userService = null;
+        assertNull(userService);
+    }
+
+    /**
+     * Testing userService.updateUser()
+     * @throws ServiceExeption
+     */
+    @Test
+    public void testUpdateUser() throws ServiceExeption {
+        Boolean userUpdateResult = false;
+        user1.setLastname("Ivanov");
+        adress1.setCity("Lida");
+        user1.setAdress(adress1);
+        adress1.setUser(user1);
+        userService = UserServiceImpl.getUserService();
+        try {
+            session.beginTransaction();
+            userUpdateResult = userService.updateUser(user1);
+            session.getTransaction().commit();
+        } catch (ServiceExeption e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        assertTrue(userUpdateResult);
+
+    }
+
+    /**
+     * Testing userService.getUserByLoginAndPassword
+     * @throws by.romanovich.it.service.exeptions.ServiceExeption
+     */
+    @Test
+    public void testGetUserByLoginAndPassword() throws ServiceExeption{
+        String login = user1.getLogin();
+        String password = user1.getPassword();
+        User userResult = null;
+        userService = UserServiceImpl.getUserService();
+        try {
+            session.beginTransaction();
+            userResult = userService.getUserByLoginAndPassword(login, password);
+            session.getTransaction().commit();
+        } catch (ServiceExeption e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        assertNotNull(userResult);
+        assertEquals(user1, userResult);
+    }
+
+    /**
+     * Testing userService.getUserById()
+     * @throws ServiceExeption
+     */
+    @Test
+    public void testGetUserById() throws ServiceExeption {
+        User userIdResult = null;
+        userService = UserServiceImpl.getUserService();
+        try {
+            session.beginTransaction();
+            userIdResult = userService.getUserById(user1.getId());
+            session.getTransaction().commit();
+        } catch (ServiceExeption e) {
+            e.printStackTrace();
+            session.getTransaction().commit();
         }
         assertNotNull(userIdResult);
-    }
-
-    /**
-     * Testing userDao.getAll()
-     * @throws DaoException
-     */
-    @Test
-    public void testGetAll() throws DaoException {
-        List<User> users = null;
-        try {
-            session.beginTransaction();
-            users = userDao.getAll();
-            session.getTransaction().commit();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        List<User> userTest = Arrays.asList(user1, user3);
-        assertNotNull(users);
-        assertEquals(users.size(), userTest.size());
-    }
-
-    /**
-     * Testing userDao.get()
-     * @throws DaoException
-     */
-    @Test
-    public void testGet() throws DaoException {
-        User userResult = null;
-        try {
-            session.beginTransaction();
-            userResult = userDao.get(user1.getId());
-            session.getTransaction().commit();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        assertNotNull(userResult);
-        assertEquals(user1, userResult);
-    }
-
-    /**
-     * Testing userDao.update()
-     * @throws DaoException
-     */
-    @Test
-    public void testUpdate() throws DaoException {
-        user1.setPassword("test");
-        User userResult = null;
-        try {
-            session.beginTransaction();
-            userDao.update(user1);
-            userResult = userDao.get(user1.getId());
-            session.getTransaction().commit();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        assertNotNull(userResult);
-        assertEquals(user1, userResult);
+        assertEquals(user1, userIdResult);
 
     }
 
     /**
-     * Testing userDao.delete()
-     * @throws DaoException
+     * Testing userService.deleteUserById();
+     * @throws ServiceExeption
      */
     @Test
-    public void testDelete() throws DaoException {
+    public void testDeleteUserById() throws ServiceExeption {
         User userResult = user2;
+        Boolean userDeleteResult = false;
+        userService = UserServiceImpl.getUserService();
         try {
             session.beginTransaction();
-            userDao.delete(user2);
-            userResult = userDao.get(user2.getId());
+            userDeleteResult = userService.deleteUserById(user2);
+            userResult = userService.getUserById(user2.getId());
             session.getTransaction().commit();
-        } catch (DaoException e) {
+        } catch (ServiceExeption e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
+        assertTrue(userDeleteResult);
         assertNull(userResult);
-
     }
 
-    /**
-     * Testing userDao.getUserByLoginAndPassword()
-     * @throws DaoException
-     */
-    @Test
-    public void testGetUserByLoginAndPassword() throws DaoException {
-        User userResult = null;
-        userDaoImpl = new UserDaoImpl(User.class);
-        try {
-            session.beginTransaction();
-            userResult = userDaoImpl.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
-            session.getTransaction().commit();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        assertNotNull(userResult);
-        assertEquals(user1, userResult);
-    }
 }

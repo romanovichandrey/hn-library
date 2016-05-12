@@ -6,14 +6,12 @@ package by.romanovich.it.service.exeptions;
  * @version 1.0
  */
 public enum  ServiceErrorCode {
-    NC_SERV_000("Cannot get all students"),
-    NC_SERV_001("Cannot get all groups"),
-    NC_SERV_002("Cannot delete user"),
-    NC_SERV_003("Cannot save student"),
-    NC_SERV_004("Cannot get student by id"),
-    NC_SERV_005("Cannot get group by id"),
-    NC_SERV_006("Cannot update student"),
-    NC_SERV_007("Cannot find students");
+    HN_SERV_000("Cannot get user by id"),
+    HN_SERV_001("Cannot add user"),
+    HN_SERV_002("Cannot delete user"),
+    HN_SERV_003("Cannot update user"),
+    HN_SERV_004("Cannot get user by login and password");
+
 
     private final String value;
 

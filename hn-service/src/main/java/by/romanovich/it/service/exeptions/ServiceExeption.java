@@ -8,7 +8,7 @@ package by.romanovich.it.service.exeptions;
 public class ServiceExeption extends Exception {
 
     private ServiceErrorCode code;
-    
+
     private Object[] params;
 
     private String message;

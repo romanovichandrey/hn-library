@@ -153,7 +153,6 @@ public class User extends SuperEntity {
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", adress=" + adress +
                 '}';
     }
 }
