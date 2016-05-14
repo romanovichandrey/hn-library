@@ -41,12 +41,6 @@
       <td>${book.yearPublishing}</td>
       <td>${book.category.name}</td>
       <td>${book.user.lastname}</td>
-      <c:if test="${book.user.login eq user.login}">
-        <td><a
-                href="updateBook?&name=${book.name}&description=${book.description}&book_date=${book.yearPublishing}
-			&name_cat=${book.category.name}">Изменить</a>
-          <a href="deleteBook?id_book=${book.id}">Удалить</a></td>
-      </c:if>
     </tr>
   </c:forEach>
   </tbody>

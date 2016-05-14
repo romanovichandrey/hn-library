@@ -53,7 +53,7 @@
         </tbody>
       </table>
     </form>
-      <a href="registr.jsp">Регистрация</a>
+      <a href="/userRegistr">Регистрация</a>
     </center>
   </c:otherwise>
 </c:choose>

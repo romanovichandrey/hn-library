@@ -77,4 +77,12 @@
         <servlet-name>UpdateBookController</servlet-name>
         <url-pattern>/updateBook</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>RegistrController</servlet-name>
+        <servlet-class>by.romanovich.it.controller.RegistrController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrController</servlet-name>
+        <url-pattern>/userRegistr</url-pattern>
+    </servlet-mapping>
 </web-app>

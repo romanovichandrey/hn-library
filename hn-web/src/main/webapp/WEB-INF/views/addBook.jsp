@@ -6,6 +6,7 @@
 <title></title>
 </head>
 <body>
+<c:import url="header.jsp"/>
 	<form method="post" action="addBook">
 		<table width="30%" border="1" cellpading="3">
 			<thead>

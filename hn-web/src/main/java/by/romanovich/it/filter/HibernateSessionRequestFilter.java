@@ -54,9 +54,10 @@ public class HibernateSessionRequestFilter implements Filter {
                     disconnectSession.beginTransaction();
                     boolean result = user.equals(userService.getUserById(user.getId()));
                     disconnectSession.getTransaction().commit();
-                    disconnectSession.disconnect();
+                    //disconnectSession.disconnect();
                     if(result) {
                         filterChain.doFilter(servletRequest, servletResponse);
+                        util.sessionClose();
                     }
                 } catch (ServiceExeption e) {
                     log.info("Cannot get user by id", e);
@@ -89,10 +90,11 @@ public class HibernateSessionRequestFilter implements Filter {
                         session.getTransaction().commit();
                         httpSession = ((HttpServletRequest) servletRequest).getSession();
                         httpSession.setAttribute(HIBERNATE_SESSION_KEY, session);
-                        session.disconnect();
+                        //session.disconnect();
                         if(status) {
                             httpSession.setAttribute("user", user);
                             filterChain.doFilter(servletRequest, servletResponse);
+                            util.sessionClose();
                         }
                     } catch (ServiceExeption e) {
                         log.error("Cannot save user:", e);
@@ -110,6 +112,7 @@ public class HibernateSessionRequestFilter implements Filter {
                         if(user != null) {
                             httpSession.setAttribute("user", user);
                             filterChain.doFilter(servletRequest, servletResponse);
+                            util.sessionClose();
                         } else {
                             servletRequest.getServletContext().getRequestDispatcher("/WEB-INF/views/registr.jsp").
                                     forward(servletRequest, servletResponse);
