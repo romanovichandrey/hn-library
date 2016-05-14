@@ -77,5 +77,4 @@
         <servlet-name>UpdateBookController</servlet-name>
         <url-pattern>/updateBook</url-pattern>
     </servlet-mapping>
-
 </web-app>
