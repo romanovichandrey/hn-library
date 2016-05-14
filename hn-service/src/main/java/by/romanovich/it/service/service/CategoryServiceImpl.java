@@ -1,7 +1,7 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.BaseDao;
 import by.romanovich.it.dao.CategoryDao;
+import by.romanovich.it.dao.Dao;
 import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.Category;
 import by.romanovich.it.service.exeptions.ServiceErrorCode;
@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private static CategoryServiceImpl categoryService = null;
 
-    private BaseDao<Category, Long> categoryDao = null;
+    private Dao<Category, Long> categoryDao = null;
 
     private CategoryServiceImpl() {
         categoryDao = new CategoryDao(Category.class);

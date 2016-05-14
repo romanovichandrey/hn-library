@@ -1,7 +1,7 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.BaseDao;
 import by.romanovich.it.dao.BookDao;
+import by.romanovich.it.dao.Dao;
 import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.Book;
 import by.romanovich.it.service.exeptions.ServiceErrorCode;
@@ -23,13 +23,13 @@ public class BookServiceImpl implements BookService {
 
     private static BookServiceImpl bookService = null;
 
-    private BaseDao<Book, Long> bookDao = null;
+    private Dao<Book, Long> bookDao = null;
 
     private BookServiceImpl() {
         bookDao = new BookDao(Book.class);
     }
 
-    private static BookServiceImpl getBookService() {
+    public static BookServiceImpl getBookService() {
         if(bookService == null) {
             bookService = new BookServiceImpl();
         }

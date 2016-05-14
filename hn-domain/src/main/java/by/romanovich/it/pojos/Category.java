@@ -62,15 +62,8 @@ public class Category extends SuperEntity {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (books != null ? books.hashCode() : 0);
+
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", books=" + books +
-                '}';
-    }
 }

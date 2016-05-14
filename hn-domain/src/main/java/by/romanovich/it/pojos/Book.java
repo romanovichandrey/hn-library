@@ -116,8 +116,8 @@ public class Book extends SuperEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (yearPublishing != null ? yearPublishing.hashCode() : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (autors != null ? autors.hashCode() : 0);
+
+
         result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }

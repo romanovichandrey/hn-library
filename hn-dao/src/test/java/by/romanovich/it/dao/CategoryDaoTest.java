@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CategoryDaoTest extends Assert {
 
-    private static BaseDao<Category, Long> categoryDao = null;
+    private static Dao<Category, Long> categoryDao = null;
 
     private static Category category1 = null;
 

@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 public class Autor extends SuperEntity{
 
-    private static final Long serialVersionUID = 1L;
+    private static final Long serialVersionUID = 156L;
 
     @Column (name = "F_FIRSTNAME")
     private String firstname;
@@ -75,16 +75,8 @@ public class Autor extends SuperEntity{
         int result = super.hashCode();
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (books != null ? books.hashCode() : 0);
+
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Autor{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", books=" + books +
-                '}';
-    }
 }

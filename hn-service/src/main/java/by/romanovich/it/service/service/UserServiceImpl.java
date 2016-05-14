@@ -1,6 +1,6 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.BaseDao;
+import by.romanovich.it.dao.Dao;
 import by.romanovich.it.dao.UserDao;
 import by.romanovich.it.dao.UserDaoImpl;
 import by.romanovich.it.dao.exeptions.DaoException;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private static UserDao userDaoImpl = null;
 
-    private BaseDao<User, Long> userDao = null;
+    private Dao<User, Long> userDao = null;
 
     private UserServiceImpl() {
         userDao = new UserDaoImpl(User.class);

@@ -14,6 +14,14 @@ import java.util.List;
 public interface AutorService {
 
     /**
+     * This method saving new autor.
+     * @param autor
+     * @return true if autor successfully is save.
+     * @throws ServiceExeption
+     */
+    Boolean saveAutor(Autor autor) throws ServiceExeption;
+
+    /**
      * This method updating autor.
      * @param autor
      * @return true if autor successfully is updated.
@@ -44,11 +52,4 @@ public interface AutorService {
      */
     Boolean deleteAutor(Autor autor) throws ServiceExeption;
 
-    /**
-     * This method saving new autor.
-     * @param autor
-     * @return true if autor successfully is save.
-     * @throws ServiceExeption
-     */
-    Boolean saveAutor(Autor autor) throws ServiceExeption;
 }

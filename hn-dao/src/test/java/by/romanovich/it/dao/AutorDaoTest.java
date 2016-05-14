@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AutorDaoTest extends Assert {
 
-    private static BaseDao<Autor, Long> autorDao = null;
+    private static Dao<Autor, Long> autorDao = null;
 
     private static Autor autor1 = null;
 

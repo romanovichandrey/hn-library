@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class UserDaoImplTest extends Assert{
 
-    private static BaseDao<User, Long> userDao = null;
+    private static Dao<User, Long> userDao = null;
 
     private static UserDao userDaoImpl = null;
 

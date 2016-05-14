@@ -11,19 +11,19 @@
 <c:set var="user" value="${sessionScope.user}" />
 <html>
 <head>
-  <title></title>
+  <title>allBooks</title>
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<c:import url="header.jsp"/>
 <table width="60%" cellpading="3" border="1">
-  <caption>Библиотека</caption>
+  <caption>Каталог книг</caption><br/>
   <thead align="center">
   <tr bordercolor="red">
-    <th colspan="1">Названиекниги</th>
-    <th colspan="1">Описаниекниги</th>
-    <th colspan="1">Авторкниги</th>
-    <th colspan="1">Датавыпуска</th>
-    <th colspan="1">Цена</th>
+    <th colspan="1">Название книги</th>
+    <th colspan="1">Описание книги</th>
+    <th colspan="1">Имя автора книги</th>
+    <th colspan="1">Фамилия автора книги</th>
+    <th colspan="1">Дата выпуска</th>
     <th colspan="1">Категория</th>
     <th colspan="1">Имя пользователя добавившего книгу</th>
     <th colspan="1">Редактировать</th>
@@ -34,26 +34,24 @@
     <tr>
       <td>${book.name}</td>
       <td>${book.description}</td>
-      <td>${book.author}</td>
-      <td>${book.book_date}</td>
-      <td>${book.price}</td>
-      <td>${book.category.name_cat}</td>
-      <td>${book.user.login}</td>
+      <c:forEach items="${book.autors}" var="autor">
+        <td>${autor.firstname}</td>
+        <td>${autor.lastname}</td>
+      </c:forEach>
+      <td>${book.yearPublishing}</td>
+      <td>${book.category.name}</td>
+      <td>${book.user.lastname}</td>
       <c:if test="${book.user.login eq user.login}">
-
         <td><a
-                href="updateBook?id_book=${book.id_book}&name=${book.name}&description=${book.description}&author=${book.author}&book_date=${book.book_date}
-			&price=${book.price}&name_cat=${book.category.name_cat}&user_name=${book.user.login}">Изменить</a>
-          <a href="deleteBook?id_book=${book.id_book}">Удалить</a></td>
+                href="updateBook?&name=${book.name}&description=${book.description}&book_date=${book.yearPublishing}
+			&name_cat=${book.category.name}">Изменить</a>
+          <a href="deleteBook?id_book=${book.id}">Удалить</a></td>
       </c:if>
     </tr>
   </c:forEach>
   </tbody>
 </table>
-<p>
-  <a href="addBook">Добавать книгу</a>
-</p>
-<jsp:include page="footer.jsp" />
+<c:import url="footer.jsp"/>
 </body>
 </html>
 

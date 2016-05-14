@@ -1,7 +1,7 @@
 package by.romanovich.it.service.service;
 
 import by.romanovich.it.dao.AutorDao;
-import by.romanovich.it.dao.BaseDao;
+import by.romanovich.it.dao.Dao;
 import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.Autor;
 import by.romanovich.it.service.exeptions.ServiceErrorCode;
@@ -23,7 +23,7 @@ public class AutorServiceImpl implements AutorService {
 
     private static AutorServiceImpl autorService = null;
 
-    private BaseDao<Autor, Long> autorDao = null;
+    private Dao<Autor, Long> autorDao = null;
 
     private AutorServiceImpl() {
         autorDao = new AutorDao(Autor.class);
@@ -34,6 +34,17 @@ public class AutorServiceImpl implements AutorService {
             autorService = new AutorServiceImpl();
         }
         return autorService;
+    }
+
+    @Override
+    public Boolean saveAutor(Autor autor) throws ServiceExeption {
+        try {
+            autorDao.add(autor);
+            log.info("Adding autor:" + autor);
+            return true;
+        } catch (DaoException e) {
+            throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_020);
+        }
     }
 
     @Override
@@ -83,14 +94,4 @@ public class AutorServiceImpl implements AutorService {
         }
     }
 
-    @Override
-    public Boolean saveAutor(Autor autor) throws ServiceExeption {
-        try {
-            autorDao.add(autor);
-            log.info("Adding autor:" + autor);
-            return true;
-        } catch (DaoException e) {
-            throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_020);
-        }
-    }
 }

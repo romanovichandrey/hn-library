@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class BookDaoTest  extends Assert {
 
-    private static BaseDao<Book, Long> bookDao = null;
+    private static Dao<Book, Long> bookDao = null;
 
     private static Book book1 = null;
 

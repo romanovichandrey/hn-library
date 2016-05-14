@@ -5,16 +5,16 @@
   Time: 6:09
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
-<head>
-  <title></title>
-</head>
+<head><title>Footer</title></head>
 <body>
-
-<p>by Romanovich Andrey</p>
+<hr/>
+      Developer: Romanovich Andrei<br/>
+      Telephone: +375(29)-284-20-87<br/>
+      Emai: romanovichandrey1989@gmail.com
 </body>
 </html>
+
+
+
