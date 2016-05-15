@@ -1,10 +1,12 @@
 package by.romanovich.it.pojos;
 
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**
@@ -112,7 +114,7 @@ public class Adress implements Serializable {
         if (id != null ? !id.equals(adress.id) : adress.id != null) return false;
         if (state != null ? !state.equals(adress.state) : adress.state != null) return false;
         if (street != null ? !street.equals(adress.street) : adress.street != null) return false;
-        if (user != null ? !user.equals(adress.user) : adress.user != null) return false;
+
 
         return true;
     }
@@ -124,7 +126,7 @@ public class Adress implements Serializable {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
+
         return result;
     }
 

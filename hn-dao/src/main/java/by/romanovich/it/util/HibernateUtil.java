@@ -30,6 +30,11 @@ public class HibernateUtil {
             sessionFactory = new Configuration()
                     .configure().setNamingStrategy(new CustomNamingStrategy())
                     .buildSessionFactory();
+            /*Configuration    configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml");
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);*/
         } catch (Throwable ex) {
             log.error("Initial SessionFactory creation faild. " + ex);
             throw new ExceptionInInitializerError(ex);
@@ -71,4 +76,5 @@ public class HibernateUtil {
         }
         return util;
     }
+
 }

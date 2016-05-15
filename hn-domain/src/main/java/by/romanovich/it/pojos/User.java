@@ -2,22 +2,25 @@ package by.romanovich.it.pojos;
 
 
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- *@see SuperEntity
+ * @see SuperEntity
  * @author Romanovich Andrei
  * @version 1.0
  */
 @Entity
-public class User implements Serializable {
+public class User extends SuperEntity {
 
     private static final Long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column (name = "F_FIRSTNAME")
     private String firstname;
@@ -40,6 +43,9 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Adress adress;
 
+    @OneToMany (mappedBy = "user")
+    private Set<Book> books;
+
     public User() {
     }
 
@@ -53,14 +59,6 @@ public class User implements Serializable {
         this.login = login;
         this.password = password;
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstname() {
@@ -147,7 +145,7 @@ public class User implements Serializable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
+
         return result;
     }
 
@@ -160,7 +158,6 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", adress=" + adress +
                 '}';
     }
 }

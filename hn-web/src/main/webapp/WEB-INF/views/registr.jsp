@@ -7,15 +7,8 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="user" value="${sessionScope.user}" />
-<c:choose>
-  <c:when test="${not empty user}">
-    <p>Hello, ${user.reader.name}</p>
-  </c:when>
-  <c:otherwise>
-    <center>
       <p>Вы еще не зарегистрированы</p>
-      <form method="post" action="login">
+      <form method="post" action="main.jsp">
         <table width="30%" border="1" cellpading="3">
           <tr>
             <th colspan="2">Registration</th>
@@ -69,6 +62,5 @@
         </table>
       </form>
     </center>
-  </c:otherwise>
-</c:choose>
+
 

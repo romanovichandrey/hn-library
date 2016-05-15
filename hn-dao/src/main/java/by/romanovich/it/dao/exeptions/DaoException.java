@@ -5,7 +5,7 @@ package by.romanovich.it.dao.exeptions;
  * @author Romanovich Andrey
  * @version 1.0
  */
-public class DaoExeption extends Exception {
+public class DaoException extends Exception {
 
     private DaoErrorCode code;
 
@@ -13,7 +13,7 @@ public class DaoExeption extends Exception {
 
     private String message;
 
-    public DaoExeption(Exception e, DaoErrorCode code, Object... params) {
+    public DaoException(Exception e, DaoErrorCode code, Object... params) {
         super(e);
         this.code = code;
         this.params = params;

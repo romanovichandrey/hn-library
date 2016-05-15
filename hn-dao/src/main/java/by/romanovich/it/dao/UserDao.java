@@ -1,17 +1,23 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.BaseDao;
+import by.romanovich.it.dao.exeptions.DaoException;
 import by.romanovich.it.pojos.User;
 
 /**
- * Extends BaseDao class. Creating BaseDao generic
- * @see by.romanovich.it.dao.BaseDao
- * @author Romanovich Andrey
+ * Interface for UserDaoImpl
+ * @see by.romanovich.it.dao.UserDaoImpl
+ * @author Romanovich Andrei
  * @version 1.0
  */
-public class UserDao extends BaseDao<User, Long> {
+public interface UserDao {
 
-    public UserDao(Class<User> type) {
-        super(type);
-    }
+    /**
+     * Getting User by login and password
+     * @param login User login
+     * @param password User password
+     * @return user
+     * @throws DaoException
+     */
+    User getUserByLoginAndPassword(String login, String password) throws DaoException;
+
 }

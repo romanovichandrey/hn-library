@@ -6,14 +6,28 @@ package by.romanovich.it.service.exeptions;
  * @version 1.0
  */
 public enum  ServiceErrorCode {
-    NC_SERV_000("Cannot get all students"),
-    NC_SERV_001("Cannot get all groups"),
-    NC_SERV_002("Cannot delete user"),
-    NC_SERV_003("Cannot save student"),
-    NC_SERV_004("Cannot get student by id"),
-    NC_SERV_005("Cannot get group by id"),
-    NC_SERV_006("Cannot update student"),
-    NC_SERV_007("Cannot find students");
+    HN_SERV_000("Cannot get user by id"),
+    HN_SERV_001("Cannot add user"),
+    HN_SERV_002("Cannot delete user"),
+    HN_SERV_003("Cannot update user"),
+    HN_SERV_004("Cannot get user by login and password"),
+    HN_SERV_005("Cannot get all users"),
+    HN_SERV_006("Cannot update book"),
+    HN_SERV_007("Cannot get book by id"),
+    HN_SERV_008("Cannot get all books"),
+    HN_SERV_009("Cannot delete book"),
+    HN_SERV_010("Cannot add book"),
+    HN_SERV_011("Cannot update category"),
+    HN_SERV_012("Cannot get category by id"),
+    HN_SERV_013("Cannot get all categories"),
+    HN_SERV_014("Cannot delete category"),
+    HN_SERV_015("Cannot add category"),
+    HN_SERV_016("Cannot update autor"),
+    HN_SERV_017("Cannot get autor by id"),
+    HN_SERV_018("Cannot get all autors"),
+    HN_SERV_019("Cannot delete autor"),
+    HN_SERV_020("Cannot add autor");
+
 
     private final String value;
 

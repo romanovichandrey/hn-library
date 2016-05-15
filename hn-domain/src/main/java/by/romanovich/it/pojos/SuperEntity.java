@@ -16,16 +16,16 @@ public class SuperEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     public SuperEntity() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,19 +36,19 @@ public class SuperEntity implements Serializable {
 
         SuperEntity that = (SuperEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return "SuperIntity{" +
+        return "SuperEntity{" +
                 "id=" + id +
                 '}';
     }
