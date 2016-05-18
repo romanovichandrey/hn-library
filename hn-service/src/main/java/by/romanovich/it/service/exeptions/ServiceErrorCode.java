@@ -23,7 +23,9 @@ public enum  ServiceErrorCode {
     HN_SERV_014("Cannot delete category"),
     HN_SERV_015("Cannot add category"),
     HN_SERV_016("Cannot get books by start and end positions"),
-    HN_SERV_017("Cannot get count books");
+    HN_SERV_017("Cannot get count books"),
+    HN_SERV_018("Cannot get users by start and end positions"),
+    HN_SERV_019("Cannot get count users");
 
 
     private final String value;

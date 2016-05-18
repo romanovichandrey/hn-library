@@ -13,9 +13,8 @@ public enum  DaoErrorCode {
     HN_DAO_003("Cannot update object"),
     HN_DAO_004("Cannot delete object"),
     HN_DAO_005("Cannot get by login and password"),
-    HN_DAO_006("Cannot create hql"),
-    HN_DAO_007("Cannot get books by start and end position"),
-    HN_DAO_008("Cannot get list count books");
+    HN_DAO_006("Cannot create hql");
+
 
     private final String value;
 

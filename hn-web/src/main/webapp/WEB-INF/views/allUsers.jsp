@@ -37,15 +37,48 @@
       <td>${user.email}</td>
       <td>${user.adress.street}</td>
       <td>${user.adress.city}</td>
-      <td><select name="books">
-        <c:forEach items="${user.books}" var="book">
-          <option name="${book.id}">${book.name}</option>
-        </c:forEach>
-      </select> </td>
+      <c:choose>
+        <c:when test="${not empty user.books}">
+          <td>
+            <table style="border: none;">
+              <tbody>
+              <c:forEach items="${user.books}" var="book">
+                <tr>
+                  <td>${book.name}</td>
+                </tr>
+              </c:forEach>
+              </tbody>
+            </table>
+          </td>
+        </c:when>
+        <c:otherwise>
+          <td>Книга не известна или не была добавлена</td>
+        </c:otherwise>
+      </c:choose>
     </tr>
   </c:forEach>
   </tbody>
 </table>
+<c:if test="${currentPage != 1}">
+  <td><a href="user?page=${currentPage - 1}">Previous</a></td>
+</c:if>
+<table>
+  <tr>
+    <c:forEach begin="1" end="${noOfPages}" var="i">
+      <c:choose>
+        <c:when test="${currentPage eq i}">
+          <td>${i}</td>
+        </c:when>
+        <c:otherwise>
+          <td><a href="user?page=${i}">${i}</a></td>
+        </c:otherwise>
+      </c:choose>
+    </c:forEach>
+  </tr>
+</table>
+<c:if test="${currentPage lt noOfPages}">
+  <td><a href="book?page=${currentPage + 1}">Next</a></td>
+</c:if>
 <c:import url="footer.jsp"/>
 </body>
 </html>

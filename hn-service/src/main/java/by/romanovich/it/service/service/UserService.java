@@ -60,4 +60,20 @@ public interface UserService {
      */
     Boolean saveUser(User user) throws ServiceExeption;
 
+    /**
+     * This method getting users by start and end positions.
+     * @param start Integer start
+     * @param end Integer end
+     * @return list users
+     * @throws ServiceExeption
+     */
+    List<User> findBooks(Integer start, Integer end) throws ServiceExeption;
+
+    /**
+     * This method getting count users.
+     * @return Integer
+     * @throws ServiceExeption
+     */
+    Long getRowCountBooks() throws ServiceExeption;
+
 }

@@ -1,7 +1,6 @@
 package by.romanovich.it.filter;
 
 import by.romanovich.it.pojos.User;
-import by.romanovich.it.service.exeptions.ServiceExeption;
 import by.romanovich.it.service.service.UserService;
 import by.romanovich.it.service.service.UserServiceImpl;
 import by.romanovich.it.util.HibernateUtil;
@@ -34,14 +33,8 @@ public class AuthorizationFilter implements Filter {
         if(httpSession != null) {
             user = (User) httpSession.getAttribute("user");
             if(user != null) {
-                try {
-                    if(user.equals(userService.getUserById(user.getId()))) {
-                        chain.doFilter(request, response);
-                        HibernateUtil.getUtil().sessionClose();
-                    }
-                } catch (ServiceExeption e) {
-                    log.info("Cannot get user by id", e);
-                }
+                chain.doFilter(request, response);
+                HibernateUtil.getUtil().sessionClose();
             } else {
                 chain.doFilter(request, response);
             }

@@ -36,6 +36,7 @@
         <a href="main.jsp">Главная страница</a>
         <a href="book">Каталог книг</a>
         <a href="addBook">Добавить книгу</a>
+        <a href="userProfile">Профиль пользователя</a>
       </p> </center>
   </c:when>
   <c:otherwise>

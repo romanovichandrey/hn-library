@@ -101,4 +101,12 @@
         <servlet-name>DeleteBookController</servlet-name>
         <url-pattern>/deleteBook</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserProfileContoller</servlet-name>
+        <servlet-class>by.romanovich.it.controller.UserProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserProfileContoller</servlet-name>
+        <url-pattern>/userProfile</url-pattern>
+    </servlet-mapping>
 </web-app>

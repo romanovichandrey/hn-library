@@ -7,6 +7,7 @@ import by.romanovich.it.pojos.User;
 import by.romanovich.it.service.exeptions.ServiceErrorCode;
 import by.romanovich.it.service.exeptions.ServiceExeption;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 
 import java.util.List;
 
@@ -121,6 +122,36 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_001);
+        }
+    }
+
+    @Override
+    public List<User> findBooks(Integer start, Integer end) throws ServiceExeption {
+        try {
+            userDao.getHibernateSession().beginTransaction();
+            Query query = userDao.getQuery("from User");
+            query.setFirstResult(start);
+            query.setMaxResults(end);
+            List<User> userList = query.list();
+            userDao.getHibernateSession().getTransaction().commit();
+            return userList;
+        } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
+            throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_018);
+        }
+    }
+
+    @Override
+    public Long getRowCountBooks() throws ServiceExeption {
+        try {
+            userDao.getHibernateSession().beginTransaction();
+            Query query = userDao.getQuery("select count(distinct id) from User");
+            Long countResult = (Long) query.uniqueResult();
+            userDao.getHibernateSession().getTransaction().commit();
+            return countResult;
+        } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
+            throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_019);
         }
     }
 }
