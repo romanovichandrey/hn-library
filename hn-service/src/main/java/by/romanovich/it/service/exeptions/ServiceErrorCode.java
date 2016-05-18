@@ -22,11 +22,8 @@ public enum  ServiceErrorCode {
     HN_SERV_013("Cannot get all categories"),
     HN_SERV_014("Cannot delete category"),
     HN_SERV_015("Cannot add category"),
-    HN_SERV_016("Cannot update autor"),
-    HN_SERV_017("Cannot get autor by id"),
-    HN_SERV_018("Cannot get all autors"),
-    HN_SERV_019("Cannot delete autor"),
-    HN_SERV_020("Cannot add autor");
+    HN_SERV_016("Cannot get books by start and end positions"),
+    HN_SERV_017("Cannot get count books");
 
 
     private final String value;

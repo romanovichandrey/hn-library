@@ -1,6 +1,5 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.Dao;
 import by.romanovich.it.dao.UserDao;
 import by.romanovich.it.dao.UserDaoImpl;
 import by.romanovich.it.dao.exeptions.DaoException;
@@ -24,16 +23,13 @@ public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl userService = null;
 
-    private static UserDao userDaoImpl = null;
-
-    private Dao<User, Long> userDao = null;
+    private static UserDao userDao = null;
 
     private UserServiceImpl() {
         userDao = new UserDaoImpl(User.class);
-        userDaoImpl = new UserDaoImpl(User.class);
     }
 
-    public static UserServiceImpl getUserService() {
+    public synchronized static UserServiceImpl getUserService() {
         if(userService == null) {
             userService = new UserServiceImpl();
         }
@@ -43,10 +39,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updateUser(User user) throws ServiceExeption {
         try {
+            userDao.getHibernateSession().beginTransaction();
             userDao.update(user);
             log.info("Updating user:" + user);
+            userDao.getHibernateSession().getTransaction().commit();
             return true;
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_003);
         }
     }
@@ -55,9 +54,12 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) throws ServiceExeption {
         User user = null;
         try {
+            userDao.getHibernateSession().beginTransaction();
             user = userDao.get(id);
+            userDao.getHibernateSession().getTransaction().commit();
             log.info("Getting user:" + user);
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_000);
         }
         return user;
@@ -67,9 +69,12 @@ public class UserServiceImpl implements UserService {
     public User getUserByLoginAndPassword(String login, String password) throws ServiceExeption {
         User user = null;
         try {
-            user = userDaoImpl.getUserByLoginAndPassword(login, password);
+            userDao.getHibernateSession().beginTransaction();
+            user = userDao.getUserByLoginAndPassword(login, password);
+            userDao.getHibernateSession().getTransaction().commit();
             log.info("Getting user:" + user);
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_004);
         }
         return user;
@@ -79,11 +84,14 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() throws ServiceExeption {
         List<User> users = null;
         try {
+            userDao.getHibernateSession().beginTransaction();
             users = userDao.getAll();
+            userDao.getHibernateSession().getTransaction().commit();
             for(User user : users)
                 log.info("Getting all users:" + user);
             return users;
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_005);
         }
     }
@@ -91,10 +99,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean deleteUser(User user) throws ServiceExeption {
         try {
+            userDao.getHibernateSession().beginTransaction();
             userDao.delete(user);
+            userDao.getHibernateSession().getTransaction().commit();
             log.info("Deleting user:" + user);
             return true;
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_002);
         }
     }
@@ -102,10 +113,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean saveUser(User user) throws ServiceExeption {
         try {
+            userDao.getHibernateSession().beginTransaction();
             userDao.add(user);
+            userDao.getHibernateSession().getTransaction().commit();
             log.info("Adding user:" + user);
             return true;
         } catch (DaoException e) {
+            userDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_001);
         }
     }

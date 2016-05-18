@@ -15,14 +15,13 @@
 </head>
 <body>
 <c:import url="header.jsp"/>
-<table width="60%" cellpading="3" border="1">
+<table class="table table-bordered" width="60%" cellpading="3" border="1">
   <caption>Каталог книг</caption><br/>
   <thead align="center">
-  <tr bordercolor="red">
+  <tr>
     <th colspan="1">Название книги</th>
     <th colspan="1">Описание книги</th>
-    <th colspan="1">Имя автора книги</th>
-    <th colspan="1">Фамилия автора книги</th>
+    <th colspan="1">Автор книги</th>
     <th colspan="1">Дата выпуска</th>
     <th colspan="1">Категория</th>
     <th colspan="1">Имя пользователя добавившего книгу</th>
@@ -34,17 +33,57 @@
     <tr>
       <td>${book.name}</td>
       <td>${book.description}</td>
-      <c:forEach items="${book.autors}" var="autor">
-        <td>${autor.firstname}</td>
-        <td>${autor.lastname}</td>
-      </c:forEach>
+      <c:choose>
+      <c:when test="${not empty book.autors}">
+        <td>
+        <table style="border: none;">
+          <tbody>
+          <c:forEach items="${book.autors}" var="autor">
+            <tr>
+            <td>${autor.firstname}</td>
+            <td>${autor.lastname}</td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+        </td>
+      </c:when>
+        <c:otherwise>
+          <td>Автор не известен</td>
+        </c:otherwise>
+      </c:choose>
       <td>${book.yearPublishing}</td>
       <td>${book.category.name}</td>
       <td>${book.user.lastname}</td>
+      <c:if test="${book.user.id eq user.id}">
+        <td>
+          <a href="updateBook?name=${book.name}&description=${book.description}&book_date=${book.yearPublishing}&id_book=${book.id}&name_cat=${book.category.name}">Изменить</a>
+          <a href="deleteBook?id_book=${book.id}">Удалить</a></td>
+      </c:if>
     </tr>
   </c:forEach>
   </tbody>
 </table>
+<c:if test="${currentPage != 1}">
+  <td><a href="book?page=${currentPage - 1}">Previous</a></td>
+</c:if>
+<table>
+  <tr>
+    <c:forEach begin="1" end="${noOfPages}" var="i">
+    <c:choose>
+      <c:when test="${currentPage eq i}">
+        <td>${i}</td>
+      </c:when>
+      <c:otherwise>
+        <td><a href="book?page=${i}">${i}</a></td>
+      </c:otherwise>
+    </c:choose>
+    </c:forEach>
+  </tr>
+</table>
+<c:if test="${currentPage lt noOfPages}">
+  <td><a href="book?page=${currentPage + 1}">Next</a></td>
+</c:if>
 <c:import url="footer.jsp"/>
 </body>
 </html>

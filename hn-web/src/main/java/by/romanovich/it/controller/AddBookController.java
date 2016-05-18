@@ -9,9 +9,7 @@ import by.romanovich.it.service.service.BookService;
 import by.romanovich.it.service.service.BookServiceImpl;
 import by.romanovich.it.service.service.CategoryService;
 import by.romanovich.it.service.service.CategoryServiceImpl;
-import by.romanovich.it.util.HibernateUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,10 +25,6 @@ public class AddBookController extends HttpServlet {
 
     private final static Logger log = Logger.getLogger(AddBookController.class);
 
-    private Session session;
-
-    private HibernateUtil util = HibernateUtil.getUtil();
-
     public AddBookController() {
         super();
 
@@ -41,18 +35,13 @@ public class AddBookController extends HttpServlet {
 
         CategoryService categoryService = CategoryServiceImpl.getCategoryService();
 
-        session = null;
         try {
-            session = util.getSession();
-            session.beginTransaction();
             List<Category> categoryList = categoryService.getAllCategories();
-            session.getTransaction().commit();
             request.setAttribute("categoryList", categoryList);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/views/addBook.jsp");
             dispatcher.forward(request, response);
         } catch (ServiceExeption e) {
             log.error("Cannot get all categories" + e);
-            session.getTransaction().rollback();
         }
     }
 
@@ -78,18 +67,14 @@ public class AddBookController extends HttpServlet {
         user.setId(id_user);
 
         try {
-            session.beginTransaction();
             book.setCategory(category);
             book.setUser(user);
             book.getAutors().add(autor);
             bookService.saveBook(book);
-            session.getTransaction().commit();
-            session.disconnect();
             RequestDispatcher dispatcher = request.getRequestDispatcher("/book");
             dispatcher.forward(request, response);
         } catch (ServiceExeption e) {
             log.error("Cannot save book" + e);
-            session.getTransaction().rollback();
         }
 
     }

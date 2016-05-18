@@ -21,9 +21,7 @@ import java.util.List;
  */
 public class UserDaoImplTest extends Assert{
 
-    private static Dao<User, Long> userDao = null;
-
-    private static UserDao userDaoImpl = null;
+    private static UserDao userDao = null;
 
     private static Adress adress1 = null;
 
@@ -96,7 +94,6 @@ public class UserDaoImplTest extends Assert{
         hibernateUtil.sessionClose();
         hibernateUtil = null;
         userDao = null;
-        userDaoImpl = null;
         user1 = null;
         user2 = null;
         user3 = null;
@@ -114,7 +111,6 @@ public class UserDaoImplTest extends Assert{
         Long userIdResult = null;
         userDao = new UserDaoImpl(User.class);
         try {
-            session.beginTransaction();
             user1.setAdress(adress1);
             adress1.setUser(user1);
             user2.setAdress(adress2);
@@ -124,10 +120,8 @@ public class UserDaoImplTest extends Assert{
             userIdResult = userDao.add(user1);
             userDao.add(user2);
             userDao.add(user3);
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(userIdResult);
     }
@@ -220,10 +214,10 @@ public class UserDaoImplTest extends Assert{
     @Test
     public void testGetUserByLoginAndPassword() throws DaoException {
         User userResult = null;
-        userDaoImpl = new UserDaoImpl(User.class);
+        userDao = new UserDaoImpl(User.class);
         try {
             session.beginTransaction();
-            userResult = userDaoImpl.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
+            userResult = userDao.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
             session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();

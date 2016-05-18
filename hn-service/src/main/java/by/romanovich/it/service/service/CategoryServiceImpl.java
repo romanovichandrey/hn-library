@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao = new CategoryDao(Category.class);
     }
 
-    public static CategoryServiceImpl getCategoryService() {
+    public synchronized static CategoryServiceImpl getCategoryService() {
         if(categoryService == null) {
             categoryService = new CategoryServiceImpl();
         }
@@ -39,10 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Boolean updateCategory(Category category) throws ServiceExeption {
         try {
+            categoryDao.getHibernateSession().beginTransaction();
             categoryDao.update(category);
+            categoryDao.getHibernateSession().getTransaction().commit();
             log.info("Updating category:" + category);
             return true;
         } catch (DaoException e) {
+            categoryDao.getHibernateSession().getTransaction().rollback();
             throw  new ServiceExeption(e, ServiceErrorCode.HN_SERV_011);
         }
     }
@@ -51,9 +54,12 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getCategoryById(Long id) throws ServiceExeption {
         Category category = null;
         try {
+            categoryDao.getHibernateSession().beginTransaction();
             category = categoryDao.get(id);
+            categoryDao.getHibernateSession().getTransaction().commit();
             log.info("Getting category:" + category);
         } catch (DaoException e) {
+            categoryDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_012);
         }
         return category;
@@ -63,10 +69,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() throws ServiceExeption {
         List<Category> categories = null;
         try {
+            categoryDao.getHibernateSession().beginTransaction();
             categories = categoryDao.getAll();
-            for(Category category : categories)
-                log.info("Getting all categories:" + category);
+            categoryDao.getHibernateSession().getTransaction().commit();
+            log.info("Getting all categories:" + categories);
         } catch (DaoException e) {
+            categoryDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_013);
         }
         return categories;
@@ -75,10 +83,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Boolean deleteCategory(Category category) throws ServiceExeption {
         try {
+            categoryDao.getHibernateSession().beginTransaction();
             categoryDao.delete(category);
+            categoryDao.getHibernateSession().getTransaction().commit();
             log.info("Deleting category:" + category);
             return true;
         } catch (DaoException e) {
+            categoryDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_014);
         }
     }
@@ -86,10 +97,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Boolean saveCategory(Category category) throws ServiceExeption {
         try {
+            categoryDao.getHibernateSession().beginTransaction();
             categoryDao.add(category);
+            categoryDao.getHibernateSession().getTransaction().commit();
             log.info("Adding category:" + category);
             return true;
         } catch (DaoException e) {
+            categoryDao.getHibernateSession().getTransaction().rollback();
             throw new ServiceExeption(e, ServiceErrorCode.HN_SERV_015);
         }
     }

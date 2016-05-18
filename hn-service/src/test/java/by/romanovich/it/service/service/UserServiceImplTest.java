@@ -4,7 +4,6 @@ import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
 import by.romanovich.it.service.exeptions.ServiceExeption;
 import by.romanovich.it.util.HibernateUtil;
-import org.hibernate.Session;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -32,15 +31,12 @@ public class UserServiceImplTest extends Assert {
 
         private static HibernateUtil hibernateUtil = null;
 
-        private static Session session = null;
-
         /**
          * Initialize custom parameter for tests.
          */
         @BeforeClass
         public static void initUserDao() {
             hibernateUtil = HibernateUtil.getUtil();
-            session = hibernateUtil.getSession();
             String firstname_num1 = "Andrei";
             String lastname_num1 = "Romanovich";
             String telephone_num1 = "80292842087";
@@ -83,30 +79,37 @@ public class UserServiceImplTest extends Assert {
         }
 
         /**
-         * Testing userService.saveUser
+         * Testing userService.saveUser and userService.getAllUsers()
          * @throws ServiceExeption
          */
         @Test
         public void testSaveUser() throws ServiceExeption {
             Boolean userSaveResult1 = false;
             Boolean userSaveResult2 = false;
+            List<User> users = null;
+            User userResult = user2;
+            Boolean userDeleteResult = false;
             userService = UserServiceImpl.getUserService();
             try {
-                session.beginTransaction();
                 user1.setAdress(adress1);
                 adress1.setUser(user1);
                 user2.setAdress(adress2);
                 adress2.setUser(user2);
                 userSaveResult1 = userService.saveUser(user1);
                 userSaveResult2 = userService.saveUser(user2);
-                session.getTransaction().commit();
+                users = userService.getAllUsers();
+                userDeleteResult = userService.deleteUser(user2);
+                userResult = userService.getUserById(user2.getId());
             } catch (ServiceExeption e) {
                 e.printStackTrace();
-                session.getTransaction().rollback();
             }
             assertTrue(userSaveResult1);
             assertTrue(userSaveResult2);
-
+            assertNotNull(users);
+            List<User> userTest = Arrays.asList(user1, user2);
+            assertEquals(userTest.size(), users.size());
+            assertTrue(userDeleteResult);
+            assertNull(userResult);
         }
 
     /**
@@ -120,27 +123,6 @@ public class UserServiceImplTest extends Assert {
         assertNull(userService);
     }
 
-    /**
-     * Testing userService.getAllUsers()
-     * @throws by.romanovich.it.service.exeptions.ServiceExeption
-     */
-    @Test
-    public void testGetAllUsers() throws ServiceExeption {
-        List<User> users = null;
-        userService = UserServiceImpl.getUserService();
-        try {
-            session.beginTransaction();
-            users = userService.getAllUsers();
-            session.getTransaction().commit();
-        } catch (ServiceExeption e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        assertNotNull(users);
-        List<User> userTest = Arrays.asList(user1, user2);
-        assertEquals(userTest.size(), users.size());
-
-    }
 
     /**
      * Testing userService.updateUser()
@@ -155,12 +137,9 @@ public class UserServiceImplTest extends Assert {
         adress1.setUser(user1);
         userService = UserServiceImpl.getUserService();
         try {
-            session.beginTransaction();
             userUpdateResult = userService.updateUser(user1);
-            session.getTransaction().commit();
         } catch (ServiceExeption e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertTrue(userUpdateResult);
 
@@ -177,12 +156,9 @@ public class UserServiceImplTest extends Assert {
         User userResult = null;
         userService = UserServiceImpl.getUserService();
         try {
-            session.beginTransaction();
             userResult = userService.getUserByLoginAndPassword(login, password);
-            session.getTransaction().commit();
         } catch (ServiceExeption e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(userResult);
         assertEquals(user1, userResult);
@@ -197,38 +173,15 @@ public class UserServiceImplTest extends Assert {
         User userIdResult = null;
         userService = UserServiceImpl.getUserService();
         try {
-            session.beginTransaction();
             userIdResult = userService.getUserById(user1.getId());
-            session.getTransaction().commit();
         } catch (ServiceExeption e) {
             e.printStackTrace();
-            session.getTransaction().commit();
         }
         assertNotNull(userIdResult);
         assertEquals(user1, userIdResult);
 
     }
 
-    /**
-     * Testing userService.deleteUserById();
-     * @throws ServiceExeption
-     */
-    @Test
-    public void testDeleteUserById() throws ServiceExeption {
-        User userResult = user2;
-        Boolean userDeleteResult = false;
-        userService = UserServiceImpl.getUserService();
-        try {
-            session.beginTransaction();
-            userDeleteResult = userService.deleteUser(user2);
-            userResult = userService.getUserById(user2.getId());
-            session.getTransaction().commit();
-        } catch (ServiceExeption e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        assertTrue(userDeleteResult);
-        assertNull(userResult);
-    }
+
 
 }

@@ -1,6 +1,9 @@
 package by.romanovich.it.dao;
 
+
 import by.romanovich.it.pojos.Book;
+import org.apache.log4j.Logger;
+
 
 /**
  * Extends BaseDao class. Creating BaseDao generic
@@ -10,7 +13,10 @@ import by.romanovich.it.pojos.Book;
  */
 public class BookDao extends BaseDao<Book, Long> {
 
+    private static Logger log = Logger.getLogger(BookDao.class);
+
     public BookDao(Class<Book> type) {
         super(type);
     }
+
 }

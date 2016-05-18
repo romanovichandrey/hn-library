@@ -11,7 +11,7 @@
 <c:set var="user" value="${sessionScope.user}" />
 <html>
 <head>
-  <title>allBooks</title>
+  <title>allUsers</title>
 </head>
 <body>
 <c:import url="header.jsp"/>
@@ -25,6 +25,7 @@
     <th colspan="1">Email</th>
     <th colspan="1">Улица</th>
     <th colspan="1">Город</th>
+    <th colspan="1">Имя книги</th>
   </tr>
   </thead>
   <tbody align="center">
@@ -36,6 +37,11 @@
       <td>${user.email}</td>
       <td>${user.adress.street}</td>
       <td>${user.adress.city}</td>
+      <td><select name="books">
+        <c:forEach items="${user.books}" var="book">
+          <option name="${book.id}">${book.name}</option>
+        </c:forEach>
+      </select> </td>
     </tr>
   </c:forEach>
   </tbody>

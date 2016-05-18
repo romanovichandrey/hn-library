@@ -14,13 +14,13 @@ import java.util.List;
 
 /**
  * Testing class BookDao.
- * @see by.romanovich.it.dao.BookDao
+ * @see BookDao
  * @author Romanovich Andrei
  * @version 1.0
  */
 public class BookDaoTest  extends Assert {
 
-    private static Dao<Book, Long> bookDao = null;
+    private static BookDao bookDao = null;
 
     private static Book book1 = null;
 

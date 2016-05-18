@@ -23,7 +23,6 @@ public class UserDaoImpl extends BaseDao<User, Long> implements UserDao{
         super(type);
     }
 
-
     @Override
     public User getUserByLoginAndPassword(String login, String password) throws DaoException {
         User user = null;
@@ -39,4 +38,6 @@ public class UserDaoImpl extends BaseDao<User, Long> implements UserDao{
             throw new DaoException(e, DaoErrorCode.HN_DAO_005);
         }
     }
+
+
 }

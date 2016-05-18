@@ -1,24 +1,18 @@
 package by.romanovich.it.controller;
 
-import by.romanovich.it.pojos.Autor;
 import by.romanovich.it.pojos.Book;
 import by.romanovich.it.service.exeptions.ServiceExeption;
 import by.romanovich.it.service.service.BookService;
 import by.romanovich.it.service.service.BookServiceImpl;
-import by.romanovich.it.util.HibernateUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class BookController extends HttpServlet {
 
@@ -33,23 +27,22 @@ public class BookController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BookService bookService = BookServiceImpl.getBookService();
-        HibernateUtil util = HibernateUtil.getUtil();
-        HttpSession httpSession = req.getSession(false);
-        Session session = (Session)httpSession.getAttribute("hibernateSession");
+        int page = 1;
+        int recordsPage = 5;
         try {
-            session = util.getSession();
-            session.beginTransaction();
-            List<Book> bookList = bookService.getAllBooks();
-            session.getTransaction().commit();
-            session.disconnect();
-            Set<Autor> autors = new HashSet<>();
-            autors.iterator();
+            if(req.getParameter("page") != null)
+                page = Integer.parseInt(req.getParameter("page"));
+            Long totalCount = bookService.getRowCountBooks();
+            List<Book> bookList = bookService.findBooks(((page - 1) * recordsPage), recordsPage);
+            log.info("Getting totalCount" + totalCount);
+            int noOfPages = (int) Math.ceil(totalCount * 1.0 / recordsPage);
             req.setAttribute("bookList", bookList);
+            req.setAttribute("noOfPages", noOfPages);
+            req.setAttribute("currentPage", page);
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/views/allBooks.jsp");
             dispatcher.forward(req, resp);
         } catch (ServiceExeption e) {
             log.error("Cannot get all books" + e);
-            session.getTransaction().rollback();
         }
 
     }

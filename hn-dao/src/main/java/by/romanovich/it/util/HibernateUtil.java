@@ -3,7 +3,9 @@ package by.romanovich.it.util;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * This is class helper for Hibernate.
@@ -19,7 +21,7 @@ public class HibernateUtil {
     private static HibernateUtil util = null;
 
     /** Object class to create a cache of compiled mapping. */
-    private SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory = null;
 
     /** Oblect class ThreadLocal*/
     private final ThreadLocal<Session> sessions = new ThreadLocal();
@@ -27,14 +29,12 @@ public class HibernateUtil {
     /** Constructor class to initialize SessionFactory. */
     private HibernateUtil() {
         try{
-            sessionFactory = new Configuration()
-                    .configure().setNamingStrategy(new CustomNamingStrategy())
-                    .buildSessionFactory();
-            /*Configuration    configuration = new Configuration();
+            Configuration    configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);*/
+            sessionFactory = configuration.setNamingStrategy(new CustomNamingStrategy())
+                    .buildSessionFactory(serviceRegistry);
         } catch (Throwable ex) {
             log.error("Initial SessionFactory creation faild. " + ex);
             throw new ExceptionInInitializerError(ex);
@@ -46,7 +46,7 @@ public class HibernateUtil {
      * @return Session
      */
     public Session getSession() {
-        Session session = (Session) sessions.get();
+        Session session = sessions.get();
         if(session == null) {
             session = sessionFactory.openSession();
             sessions.set(session);
@@ -58,13 +58,22 @@ public class HibernateUtil {
      * Disconnect the session from its underlying JDBC connection
      */
     public void sessionClose() {
-        Session session = (Session) sessions.get();
+        Session session = sessions.get();
         if(session != null) {
-            session.disconnect();
+            session.close();
             sessions.set(null);
         }
     }
 
+    /**
+     * Method for sessionFactory.close() and null for HibernateUtil
+     */
+    public static void destroy() {
+        if(util != null) {
+            sessionFactory.close();
+            util = null;
+        }
+    }
 
     /**
      * Method for obtain object HibernateUtil implements pattern Singleton
@@ -76,5 +85,4 @@ public class HibernateUtil {
         }
         return util;
     }
-
 }

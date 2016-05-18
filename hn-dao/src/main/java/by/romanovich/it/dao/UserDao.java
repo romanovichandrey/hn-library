@@ -9,7 +9,7 @@ import by.romanovich.it.pojos.User;
  * @author Romanovich Andrei
  * @version 1.0
  */
-public interface UserDao {
+public interface UserDao extends Dao<User, Long> {
 
     /**
      * Getting User by login and password

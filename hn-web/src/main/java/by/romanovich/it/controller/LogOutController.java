@@ -1,7 +1,5 @@
 package by.romanovich.it.controller;
 
-import org.hibernate.Session;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +23,6 @@ public class LogOutController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession httpSession = request.getSession();
-        Session session = (Session) httpSession.getAttribute("hibernateSession");
-        session.disconnect();
         httpSession.invalidate();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/");
         dispatcher.forward(request, response);

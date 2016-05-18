@@ -1,6 +1,8 @@
 package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.exeptions.DaoException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,5 +52,19 @@ public interface Dao<T, PK extends Serializable> {
      * @throws by.romanovich.it.dao.exeptions.DaoException
      */
     void delete(T object) throws DaoException;
+
+    /**
+     * Getting HibernateSession.
+     * @return session Session session
+     */
+    Session getHibernateSession();
+
+    /**
+     * Getting hql query.
+     * @param hql string param.
+     * @return query.
+     * @throws DaoException
+     */
+    Query getQuery(String hql) throws DaoException;
 
 }
