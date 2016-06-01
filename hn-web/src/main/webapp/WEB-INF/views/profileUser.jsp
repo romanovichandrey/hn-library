@@ -12,7 +12,7 @@
   <title></title>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="layout/header.jsp"/>
 <c:set var="user" value="${sessionScope.user}"/>
 <p>Ваш профиль</p>
   <table width="30%" border="1" cellpading="3">
@@ -55,6 +55,6 @@
     </tbody>
   </table>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="layout/footer.jsp" />
 </body>
 </html>

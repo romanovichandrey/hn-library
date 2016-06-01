@@ -1,14 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<ehcache>
-    <diskStore path="java.io.tmpdir"/>
-    <defaultCache
-            maxElementsInMemory ="200"
-            eternal="false"
-            timeToIdleSeconds = "600"
-            timeToLiveSeconds = "600"
-            overflowToDisck="true"
-            diskPersistent="false"
-            diskExpiryEvictionPolicy ="300"
-            memoryStoreEvitionPolicy="LRU"
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://www.ehcache.org/ehcache.xsd">
+
+    <defaultCache maxElementsInMemory="20000"
+                  eternal="false"
+                  timeToIdleSeconds="300000"
+                  timeToLiveSeconds="300000"
+                  overflowToDisk="false"
+                  diskPersistent="false"
+                  memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="by.romanovich.it.pojos.Book"
+           maxElementsInMemory="15000"
+           eternal="true"
             />
 </ehcache>

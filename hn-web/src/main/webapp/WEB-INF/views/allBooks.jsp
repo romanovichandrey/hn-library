@@ -14,7 +14,7 @@
   <title>allBooks</title>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="layout/header.jsp"/>
 <table class="table table-bordered" width="60%" cellpading="3" border="1">
   <caption>Каталог книг</caption><br/>
   <thead align="center">
@@ -84,7 +84,7 @@
 <c:if test="${currentPage lt noOfPages}">
   <td><a href="book?page=${currentPage + 1}">Next</a></td>
 </c:if>
-<c:import url="footer.jsp"/>
+<c:import url="layout/footer.jsp"/>
 </body>
 </html>
 

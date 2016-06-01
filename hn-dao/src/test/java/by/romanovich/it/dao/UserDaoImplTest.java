@@ -1,14 +1,18 @@
 package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.interfaces.UserDao;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
-import by.romanovich.it.util.HibernateUtil;
-import org.hibernate.Session;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +23,13 @@ import java.util.List;
  * @author Romanovich Andrei
  * @version 1.0
  */
+@ContextConfiguration("/beans-daoTest.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class UserDaoImplTest extends Assert{
 
-    private static UserDao userDao = null;
+    @Autowired
+    private UserDao userDao;
 
     private static Adress adress1 = null;
 
@@ -35,17 +43,11 @@ public class UserDaoImplTest extends Assert{
 
     private static User user3 = null;
 
-    private static HibernateUtil hibernateUtil = null;
-
-    private static Session session = null;
-
     /**
      * Initialize custom parameter for tests.
      */
     @BeforeClass
     public static void initUserDao() {
-        hibernateUtil = HibernateUtil.getUtil();
-        session = hibernateUtil.getSession();
         String firstname_num1 = "Andrei";
         String lastname_num1 = "Romanovich";
         String telephone_num1 = "80292842087";
@@ -84,6 +86,13 @@ public class UserDaoImplTest extends Assert{
         String country_num3 = "Belarus";
         adress3 = new Adress(street_num3, city_num3, state_num3, country_num3);
         user3 = new User(firstname_num3, lastname_num3, telephone_num3, email_num3, login_num3, password_num3);
+
+        user1.setAdress(adress1);
+        adress1.setUser(user1);
+        user2.setAdress(adress2);
+        adress2.setUser(user2);
+        user3.setAdress(adress3);
+        adress3.setUser(user3);
     }
 
     /**
@@ -91,9 +100,6 @@ public class UserDaoImplTest extends Assert{
      */
     @AfterClass
     public static void clearHibernateUtil() {
-        hibernateUtil.sessionClose();
-        hibernateUtil = null;
-        userDao = null;
         user1 = null;
         user2 = null;
         user3 = null;
@@ -108,22 +114,16 @@ public class UserDaoImplTest extends Assert{
      */
     @Test
     public void testAdd() throws DaoException {
-        Long userIdResult = null;
-        userDao = new UserDaoImpl(User.class);
+        Long userIdResult1 = null;
+        Long userIdResult2 = null;
         try {
-            user1.setAdress(adress1);
-            adress1.setUser(user1);
-            user2.setAdress(adress2);
-            adress2.setUser(user2);
-            user3.setAdress(adress3);
-            adress3.setUser(user3);
-            userIdResult = userDao.add(user1);
-            userDao.add(user2);
-            userDao.add(user3);
+            userIdResult1 = userDao.add(user1);
+            userIdResult2 = userDao.add(user2);
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        assertNotNull(userIdResult);
+        assertNotNull(userIdResult1);
+        assertNotNull(userIdResult2);
     }
 
     /**
@@ -134,14 +134,13 @@ public class UserDaoImplTest extends Assert{
     public void testGetAll() throws DaoException {
         List<User> users = null;
         try {
-            session.beginTransaction();
+            userDao.add(user1);
+            userDao.add(user2);
             users = userDao.getAll();
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
-        List<User> userTest = Arrays.asList(user1, user3);
+        List<User> userTest = Arrays.asList(user1, user2);
         assertNotNull(users);
         assertEquals(users.size(), userTest.size());
     }
@@ -154,12 +153,10 @@ public class UserDaoImplTest extends Assert{
     public void testGet() throws DaoException {
         User userResult = null;
         try {
-            session.beginTransaction();
+            userDao.add(user1);
             userResult = userDao.get(user1.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(userResult);
         assertEquals(user1, userResult);
@@ -174,13 +171,10 @@ public class UserDaoImplTest extends Assert{
         user1.setPassword("test");
         User userResult = null;
         try {
-            session.beginTransaction();
             userDao.update(user1);
             userResult = userDao.get(user1.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(userResult);
         assertEquals(user1, userResult);
@@ -195,13 +189,11 @@ public class UserDaoImplTest extends Assert{
     public void testDelete() throws DaoException {
         User userResult = user2;
         try {
-            session.beginTransaction();
+            userDao.add(user2);
             userDao.delete(user2);
             userResult = userDao.get(user2.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNull(userResult);
 
@@ -214,14 +206,13 @@ public class UserDaoImplTest extends Assert{
     @Test
     public void testGetUserByLoginAndPassword() throws DaoException {
         User userResult = null;
-        userDao = new UserDaoImpl(User.class);
         try {
-            session.beginTransaction();
+            user1.setAdress(adress1);
+            adress1.setUser(user1);
+            userDao.add(user1);
             userResult = userDao.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(userResult);
         assertEquals(user1, userResult);

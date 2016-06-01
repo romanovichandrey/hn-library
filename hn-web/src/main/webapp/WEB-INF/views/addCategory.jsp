@@ -12,7 +12,7 @@
     <title></title>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="layout/header.jsp"/>
 <form method="post" action="addCategory">
   <table width="30%" border="1" cellpading="3">
     <thead>
@@ -31,6 +31,6 @@
   <input type="hidden" name="id_user" value="${user.id}" />
   <input type="submit" value="Добавить категорию" />
 </form>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="layout/footer.jsp"/>
 </body>
 </html>

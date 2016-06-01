@@ -1,111 +1,143 @@
 package by.romanovich.it.service.service;
 
+import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.interfaces.Dao;
 import by.romanovich.it.pojos.Category;
-import by.romanovich.it.service.exeptions.ServiceExeption;
-import by.romanovich.it.util.HibernateUtil;
-import org.junit.AfterClass;
+import by.romanovich.it.service.exeptions.ServiceException;
+import by.romanovich.it.service.service.interfases.CategoryService;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Testing class CategoryServiceImpl.
  * @author Romanovich Andrei
  * @version 1.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceImplTest extends Assert {
 
-    private static CategoryService categoryService= null;
+    @Mock
+    private Dao<Category, Long> categoryDao;
 
-    private static Category category1= null;
+    @InjectMocks
+    private CategoryService categoryService = new CategoryServiceImpl();
 
-    private static Category category2= null;
+    private Category category1;
 
-    private static Category category3= null;
+    private Category category2;
+
+    private Category category3;
+
+    private List<Category> categoryList;
 
     /**
      * Initialize custom parameter for tests.
      */
-    @BeforeClass
-    public static void initAutorDao() {
+    @Before
+    public void initAutorDao() {
         String name_num1 = "Программирование";
         String name_num2 = "Фантрмтика";
         String name_num3 = "РОман";
         category1 = new Category(name_num1);
         category2 = new Category(name_num2);
         category3 = new Category(name_num3);
+
+        categoryList = Arrays.asList(category1, category2, category3);
     }
 
     /**
-     * Clear custom parameter.
-     */
-    @AfterClass
-    public static void clearHibernateUtil() {
-        HibernateUtil.getUtil().sessionClose();
-        categoryService = null;
-        category1 = null;
-        category2 = null;
-        category3 = null;
-    }
-
-    /**
-     * Testing categoryService.getService()
+     * Testing categoryService.updateCategory()
      */
     @Test
-    public void testGetBookService() {
-        categoryService = CategoryServiceImpl.getCategoryService();
-        assertNotNull(categoryService);
-        categoryService = null;
-        assertNull(categoryService);
-
-    }
-
-    /**
-     * Testing category serviceCategory.deleteCategory() and serviceCategory.getUserById() and
-     * serviceCategory.saveCategory() and categoryService.getAllCategories().
-     * @throws ServiceExeption
-     */
-    @Test
-    public void testSaveGetAndDeleteUser() throws ServiceExeption {
-        Category categoryResult = category2;
-        Boolean categoryDeleteResult = false;
-        Category categoryIdResult = category1;
-        Boolean categorySaveResult1 = false;
-        Boolean categorySaveResult2 = false;
-        Boolean categorySaveResult3 = false;
-        Boolean categoryUpdateResult = false;
-        List<Category> categories = null;
-        categoryService = CategoryServiceImpl.getCategoryService();
-        category1.setName("New name");
-        categoryService = CategoryServiceImpl.getCategoryService();
+    public void testUpdateCategory() {
+        category1.setName(category2.getName());
         try {
-            categorySaveResult1 = categoryService.saveCategory(category1);
-            categorySaveResult2 = categoryService.saveCategory(category2);
-            categorySaveResult3 = categoryService.saveCategory(category3);
-            categoryIdResult = categoryService.getCategoryById(category1.getId());
-            categoryUpdateResult = categoryService.updateCategory(category3);
-            categories = categoryService.getAllCategories();
-            categoryResult = categoryService.getCategoryById(category2.getId());
-            categoryDeleteResult = categoryService.deleteCategory(category3);
-            category3 = categoryService.getCategoryById(category3.getId());
-        } catch (ServiceExeption e) {
+            categoryService.updateCategory(category1);
+            verify(categoryDao).update(category1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
-        assertTrue(categorySaveResult1);
-        assertTrue(categorySaveResult2);
-        assertTrue(categorySaveResult3);
-        assertNotNull(categoryIdResult);
-        assertEquals(category1, categoryIdResult);
-        assertTrue(categoryUpdateResult);
-        assertNotNull(categories);
-        assertNotNull(categoryResult);
-        assertEquals(categoryResult, category2);
-        List<Category> categoryTest = Arrays.asList(category1, category2, category3);
-        assertEquals(categoryTest.size(), categories.size());
-        assertTrue(categoryDeleteResult);
-        assertNull(category3);
+
+    }
+
+    /**
+     * Testing categoryService.getCategoryById()
+     */
+    @Test
+    public void testGetCategoryById() {
+        try {
+            when(categoryDao.get(category1.getId())).thenReturn(category1);
+
+            assertEquals(category1, categoryService.getCategoryById(category1.getId()));
+        }catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Testing categoryService.getAllCategories()
+     */
+    @Test
+    public void testGetAllCategories() {
+        try{
+            when(categoryDao.getAll()).thenReturn(categoryList);
+
+            assertNotNull(categoryService.getAllCategories());
+            assertEquals(categoryList, categoryService.getAllCategories());
+        }catch (ServiceException e){
+            e.printStackTrace();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Testing categoryService.deleteCategory
+     */
+    @Test
+    public void testDeleteCategory() {
+        try {
+            doNothing().when(categoryDao).delete(category2);
+
+            assertTrue(categoryService.deleteCategory(category2));
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Testing categoryService.saveCategory()
+     */
+    @Test
+    public void testSaveCategory() throws Exception {
+        try {
+            categoryService.saveCategory(category3);
+
+            verify(categoryDao).add(category3);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
     }
 }

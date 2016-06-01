@@ -1,43 +1,60 @@
 package by.romanovich.it.service.service;
 
+import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.interfaces.Dao;
 import by.romanovich.it.pojos.Autor;
 import by.romanovich.it.pojos.Book;
-import by.romanovich.it.service.exeptions.ServiceExeption;
-import by.romanovich.it.util.HibernateUtil;
-import org.junit.AfterClass;
+import by.romanovich.it.service.exeptions.ServiceException;
+import by.romanovich.it.service.service.interfases.BookService;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Testing class BookServiceImpl.
  * @author Romanovich Andrei
  * @version 1.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class BookServiceImplTest extends Assert {
 
-    private static BookService bookService= null;
+    @Mock
+    private Dao<Book, Long> bookDao;
 
-    private static Book book1= null;
+    @InjectMocks
+    private BookService bookService = new BookServiceImpl();
 
-    private static Book book2= null;
+    private Book book1= null;
 
-    private static Book book3= null;
+    private Book book2= null;
 
-    private static Autor autor1 = null;
+    private Book book3= null;
 
-    private static Autor autor2 = null;
+    private Autor autor1 = null;
 
-    private static Autor autor3 = null;
+    private Autor autor2 = null;
+
+    private Autor autor3 = null;
+
+    private List<Book> bookList;
 
     /**
      * Initialize custom parameter for tests.
      */
-    @BeforeClass
-    public static void initAutorDao() {
+    @Before
+    public void initAutorDao() {
+
+        MockitoAnnotations.initMocks(this);
 
         String firstname_num1 = "Брюс";
         String lastname_num1 = "Эккель";
@@ -68,77 +85,89 @@ public class BookServiceImplTest extends Assert {
         book2 = new Book(name_num2, description_num2, yearPublishing_num2);
         book3 = new Book(name_num3, description_num3, yearPublishing_num3);
 
-
+        bookList = Arrays.asList(book1, book2, book3);
     }
 
     /**
-     * Clear custom parameter.
-     */
-    @AfterClass
-    public static void clearHibernateUtil() {
-        HibernateUtil.getUtil().sessionClose();
-        bookService = null;
-        book1 = null;
-        book2 = null;
-        book3 = null;
-        autor1 = null;
-        autor2 = null;
-        autor3 = null;
-    }
-
-    /**
-     * Testing bookSercice.saveBook and bookServise.deleteBook()
-     * and bookService.updateBook() and bookService.getAllBooks()
-     * and bookService.getBookById().
-     * @throws by.romanovich.it.service.exeptions.ServiceExeption
+     * Testing bookService.updateBook()
      */
     @Test
-    public void testSaveBook() throws ServiceExeption {
-        Boolean bookSaveResult1 = false;
-        Boolean bookrSaveResult2 = false;
-        Boolean bookSaveResult3 = false;
-        Book bookIdResult = book1;
-        Boolean bookDeleteResult = false;
-        Boolean bookUpdateResult = false;
-        List<Book> books = null;
-        book1.setName("New name");
-        bookService = BookServiceImpl.getBookService();
+    public void testUpdateBook() {
+        book1.setName(book2.getName());
         try {
-            book1.getAutors().add(autor1);
-            book2.getAutors().add(autor2);
-            book3.getAutors().add(autor3);
-            bookSaveResult1 = bookService.saveBook(book1);
-            bookrSaveResult2 = bookService.saveBook(book2);
-            bookSaveResult3 = bookService.saveBook(book3);
-            bookUpdateResult = bookService.updateBook(book1);
-            bookIdResult = bookService.getBookById(book1.getId());
-            books = bookService.getAllBooks();
-            bookDeleteResult = bookService.deleteBook(book1.getId());
-            assertTrue(bookUpdateResult);
-        } catch (ServiceExeption e) {
+            bookService.updateBook(book1);
+            verify(bookDao).update(book1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
-        assertTrue(bookSaveResult1);
-        assertTrue(bookrSaveResult2);
-        assertTrue(bookSaveResult3);
-        assertTrue(bookUpdateResult);
-        assertNotNull(bookIdResult);
-        assertEquals(book1, bookIdResult);
-        assertNotNull(books);
-        List<Book> bookTest = Arrays.asList(book1, book2, book3);
-        assertEquals(bookTest, books);
-        assertTrue(bookDeleteResult);
     }
 
     /**
-     * Testing bookService.getBookService()
+     * Testing bookService.getBookById()
      */
     @Test
-    public void testGetBookService() {
-        bookService = BookServiceImpl.getBookService();
-        assertNotNull(bookService);
-        bookService = null;
-        assertNull(bookService);
+    public void testGetBookById() {
+        try {
+            when(bookDao.get(book1.getId())).thenReturn(book1);
 
+            assertEquals(book1, bookService.getBookById(book1.getId()));
+        }catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Testing bookService.getAllBooks()
+     */
+    @Test
+    public void testGetAllBooks() {
+        try{
+            when(bookDao.getAll()).thenReturn(bookList);
+
+            assertNotNull(bookService.getAllBooks());
+            assertEquals(bookList, bookService.getAllBooks());
+        }catch (ServiceException e){
+            e.printStackTrace();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Testing bookService.deleteBook()
+     */
+    @Test
+    public void testDeleteBook() throws Exception {
+        try {
+            doNothing().when(bookDao).delete(book2);
+
+            assertTrue(bookService.deleteBook(book2.getId()));
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Testing bookService.saveBook()
+     */
+    @Test
+    public void testSaveBook() {
+        try {
+            bookService.saveBook(book3);
+
+            verify(bookDao).add(book3);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
     }
 }

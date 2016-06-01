@@ -6,7 +6,7 @@
 <title></title>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="layout/header.jsp"/>
 	<form method="post" action="updateBook">
 		<table width="30%" border="1" cellpading="3">
 			<thead>
@@ -52,6 +52,6 @@
 		<input type="hidden" name="id_book" value="${param.id_book}" />
 		<input type="submit" value="Изменить" />
 	</form>
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="layout/footer.jsp" />
 </body>
 </html>

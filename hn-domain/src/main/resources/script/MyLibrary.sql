@@ -62,3 +62,10 @@ constraint FK_BOOK foreign key (BOOK_ID) references t_book (F_ID),
 constraint FK_AUTOR foreign key (AUTOR_ID) references t_autor (F_ID)
 )
 engine=InnoDB default charset=utf8 collate=utf8_unicode_ci;
+
+CREATE TABLE T_USERPROFILE (
+F_ID bigint(20) not null,
+F_USER_ID bigint(20) not null,
+F_ROLE VARCHAR(10) not null,
+
+)

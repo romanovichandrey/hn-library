@@ -2,38 +2,47 @@ package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.exeptions.DaoErrorCode;
 import by.romanovich.it.dao.exeptions.DaoException;
-import by.romanovich.it.util.HibernateUtil;
+import by.romanovich.it.dao.interfaces.Dao;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
  * Implementing Dao interface. Creating Dao generic
- * @see by.romanovich.it.dao.Dao
+ * @see by.romanovich.it.dao.interfaces.Dao
  * @author Romanovich Andrey
  * @version 1.0
  */
-public class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
+@Repository
+@Transactional(propagation = Propagation.MANDATORY)
+public abstract class BaseDao<T, PK extends Serializable> implements Dao<T, PK> {
 
     private static Logger log = Logger.getLogger(BaseDao.class);
 
-    private Class<T> type;
+    protected Class<? extends T> type;
 
-    public BaseDao(Class<T> type) {
-        this.type = type;
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public BaseDao() {
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        type = (Class) pt.getActualTypeArguments()[0];
     }
 
     protected Session getSession(){
-        return HibernateUtil.getUtil().getSession();
-    }
-
-    @Override
-    public Session getHibernateSession() {
-        return getSession();
+        return sessionFactory.getCurrentSession();
     }
 
     @Override

@@ -1,13 +1,17 @@
 package by.romanovich.it.dao;
 
 import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.interfaces.Dao;
 import by.romanovich.it.pojos.Category;
-import by.romanovich.it.util.HibernateUtil;
-import org.hibernate.Session;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +22,13 @@ import java.util.List;
  * @author Romanovich Andrei
  * @version 1.0
  */
+@ContextConfiguration("/beans-daoTest.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class CategoryDaoTest extends Assert {
 
-    private static Dao<Category, Long> categoryDao = null;
+    @Autowired
+    private Dao<Category, Long> categoryDao;
 
     private static Category category1 = null;
 
@@ -28,17 +36,11 @@ public class CategoryDaoTest extends Assert {
 
     private static Category category3 = null;
 
-    private static HibernateUtil hibernateUtil = null;
-
-    private static Session session = null;
-
     /**
      * Initialize custom parameter for tests.
      */
     @BeforeClass
     public static void initUserDao() {
-        hibernateUtil = HibernateUtil.getUtil();
-        session = hibernateUtil.getSession();
         String name_num1 = "Фантастика";
         String name_num2 = "Программирование";
         String name_num3 = "Роман";
@@ -53,9 +55,6 @@ public class CategoryDaoTest extends Assert {
      */
     @AfterClass
     public static void clearHibernateUtil() {
-        hibernateUtil.sessionClose();
-        hibernateUtil = null;
-        categoryDao = null;
         category1 = null;
         category2 = null;
         category3 = null;
@@ -68,16 +67,12 @@ public class CategoryDaoTest extends Assert {
     @Test
     public void testAdd() throws DaoException {
         Long categoryIdResult = null;
-        categoryDao = new CategoryDao(Category.class);
         try {
-            session.beginTransaction();
             categoryIdResult = categoryDao.add(category1);
             categoryDao.add(category2);
             categoryDao.add(category3);
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(categoryIdResult);
     }
@@ -90,14 +85,14 @@ public class CategoryDaoTest extends Assert {
     public void testGetAll() throws DaoException {
         List<Category> categories = null;
         try {
-            session.beginTransaction();
+            categoryDao.add(category1);
+            categoryDao.add(category2);
+            categoryDao.add(category3);
             categories = categoryDao.getAll();
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
-        List<Category> categoryTest = Arrays.asList(category1, category2);
+        List<Category> categoryTest = Arrays.asList(category1, category2, category3);
         assertNotNull(categories);
         assertEquals(categories.size(), categoryTest.size());
     }
@@ -110,12 +105,12 @@ public class CategoryDaoTest extends Assert {
     public void testGet() throws DaoException {
         Category categoryResult = null;
         try {
-            session.beginTransaction();
+            categoryDao.add(category1);
+            categoryDao.add(category2);
+            categoryDao.add(category3);
             categoryResult = categoryDao.get(category1.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(categoryResult);
         assertEquals(category1, categoryResult);
@@ -130,13 +125,10 @@ public class CategoryDaoTest extends Assert {
         category1.setName("Художественная");
         Category categoryResult = null;
         try {
-            session.beginTransaction();
             categoryDao.update(category1);
             categoryResult = categoryDao.get(category1.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNotNull(categoryResult);
         assertEquals(category1, categoryResult);
@@ -151,13 +143,11 @@ public class CategoryDaoTest extends Assert {
     public void testDelete() throws DaoException {
         Category categoryResult = category3;
         try {
-            session.beginTransaction();
+            categoryDao.add(category3);
             categoryDao.delete(category3);
             categoryResult = categoryDao.get(category3.getId());
-            session.getTransaction().commit();
         } catch (DaoException e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
         }
         assertNull(categoryResult);
 
