@@ -18,20 +18,20 @@
 <s:form action="${login}" modelAttribute="user" method="post" class="form-horizontal" role="form">
   <fieldset>
     <div class="form-group">
-      <label for="login" class="col-sm-2 control-label">Login: </label>
+      <label for="login" class="col-sm-2 control-label"><spring:message code="userName"/>: </label>
       <div class="col-sm-10">
         <s:input id="login" type="text" path="login" class="form-control"/><br/>
       </div>
     </div>
     <div class="form-group">
-      <label for="password" class="col-sm-2 control-label">Password: </label>
+      <label for="password" class="col-sm-2 control-label"><spring:message code="password"/>: </label>
       <div class="col-sm-10">
         <s:input id="password" type="password" maxlength="255" path="password" class="form-control"/><br/>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-default" type="submit">Login: </button>
+        <button class="btn btn-default" type="submit"><spring:message code="singUp"/>: </button>
       </div>
     </div>
   </fieldset>

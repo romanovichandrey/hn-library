@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
   <title>allUsers</title>
@@ -40,7 +41,7 @@
   </tbody>
 </table>
 <c:if test="${currentPage != 1}">
-  <td><a href="/user/list/${currentPage - 1}">Previous</a></td>
+  <td><a href="/user/list/${currentPage - 1}"><spring:message code="previous"/></a></td>
 </c:if>
 <table>
   <tr>
@@ -57,7 +58,7 @@
   </tr>
 </table>
 <c:if test="${currentPage lt noOfPages}">
-  <td><a href="/user/list/${currentPage + 1}">Next</a></td>
+  <td><a href="/user/list/${currentPage + 1}"><spring:message code="next"/></a></td>
 </c:if>
 </body>
 </html>

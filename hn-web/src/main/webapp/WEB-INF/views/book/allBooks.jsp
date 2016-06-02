@@ -66,7 +66,7 @@
   </tbody>
 </table>
 <c:if test="${currentPage != 1}">
-  <td><a href="/book/list/${currentPage - 1}">Previous</a></td>
+  <td><a href="/book/list/${currentPage - 1}"><spring:message code="previous"/></a></td>
 </c:if>
 <table>
   <tr>
@@ -83,7 +83,7 @@
   </tr>
 </table>
 <c:if test="${currentPage lt noOfPages}">
-  <td><a href="/book/list/${currentPage + 1}">Next</a></td>
+  <td><a href="/book/list/${currentPage + 1}"><spring:message code="next"/></a></td>
 </c:if>
 
 </body>
