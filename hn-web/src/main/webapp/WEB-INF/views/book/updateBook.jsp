@@ -6,7 +6,7 @@
 <title></title>
 </head>
 <body>
-	<form method="post" action="/book/new">
+	<form method="post" action="/book/updateBook">
 		<table class="table table-bordered" width="60%" cellpading="3" border="1">
 			<thead>
 				<tr>
@@ -25,16 +25,16 @@
 					<c:forEach items="${autorSet}" var="autor">
 					<tr>
 						<td>Измените имя автора книги</td>
-						<td><input type="text" name="autor_firstname" value="${autor.firstname}"></td>
+						<td><input type="text" name="firstname" value="${autor.firstname}"></td>
 					</tr>
 						<tr>
 							<td>Измените фамилию автора книги</td>
-							<td><input type="text" name="autor_lastname" value="${autor.lastname}"></td>
+							<td><input type="text" name="lastname" value="${autor.lastname}"></td>
 						</tr>
 					</c:forEach>
 					<tr>
 						<td>Измените дату написания книги</td>
-						<td><input type="text" name="book_date" value="${param.book_date}" /></td>
+						<td><input type="text" name="yearPublishing" value="${param.book_date}" /></td>
 					</tr>
 					<tr>				
 						<td>Измените категорию книги</td>

@@ -9,6 +9,7 @@ import by.romanovich.it.pojos.User;
 import by.romanovich.it.service.exceptions.ServiceException;
 import by.romanovich.it.service.service.interfases.BookService;
 import by.romanovich.it.service.service.interfases.CategoryService;
+import by.romanovich.it.service.service.interfases.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,9 @@ public class BookController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listRedirect(){
@@ -132,6 +136,40 @@ public class BookController {
         }
         return "updateBook";
     }
+
+    @RequestMapping(value = "/updateBook", method = RequestMethod.POST)
+    public String saveUpdateBook(@RequestParam String id_book, @RequestParam String name,
+                                 @RequestParam String description, @RequestParam String firstname,
+                                 @RequestParam String lastname, @RequestParam String yearPublishing,
+                                 @RequestParam String id_cat, @RequestParam String id_user) throws WebException {
+        Long idCat = Long.parseLong(id_cat);
+        Long idBook = Long.parseLong(id_book);
+        Long idUser = Long.parseLong(id_user);
+        Book book = new Book();
+        Category category = null;
+        Autor autor = new Autor();
+        User user = null;
+        try {
+            book.setId(idBook);
+            book.setName(name);
+            book.setDescription(description);
+            book.setYearPublishing(yearPublishing);
+            autor.setFirstname(firstname);
+            autor.setLastname(lastname);
+            book.getAutors().add(autor);
+            category = categoryService.getCategoryById(idCat);
+            book.setCategory(category);
+            user = userService.getUserById(idUser);
+            book.setUser(user);
+            bookService.updateBook(book);
+        } catch (ServiceException e) {
+            log.error("Cannot get all categories and book" + e);
+            throw new WebException(e, WebErrorCode.NC_WEB_001);
+        }
+        return "redirect:/book/list";
+    }
+
+
     @RequestMapping(value = "/deleteBook", method = RequestMethod.GET)
     public String deleteBook(@RequestParam String id_book) throws WebException {
         Long idResult = Long.parseLong(id_book);
