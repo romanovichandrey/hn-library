@@ -14,6 +14,7 @@
     <div class="navbar-inner">
         <ul class="nav">
             <li><a href="/welcom"><spring:message code="home"/></a></li>
+            <li><a href="/book/list"><spring:message code="all.book"/></a></li>
             <c:set var="user" value="${sessionScope.user}"/>
             <sec:authorize access="hasRole('PRIVATE')">
                 <li>
