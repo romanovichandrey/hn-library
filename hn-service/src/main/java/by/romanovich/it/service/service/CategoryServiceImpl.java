@@ -1,10 +1,10 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.Dao;
 import by.romanovich.it.pojos.Category;
-import by.romanovich.it.service.exeptions.ServiceErrorCode;
-import by.romanovich.it.service.exeptions.ServiceException;
+import by.romanovich.it.service.exceptions.ServiceErrorCode;
+import by.romanovich.it.service.exceptions.ServiceException;
 import by.romanovich.it.service.service.interfases.CategoryService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

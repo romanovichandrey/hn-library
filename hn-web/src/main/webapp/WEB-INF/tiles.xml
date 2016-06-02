@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="default" template="/WEB-INF/views/layout/default.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
+    </definition>
+    <definition name="allBooks" extends="default">
+        <put-attribute name="title" value="All Books"/>
+        <put-attribute name="body" value="/WEB-INF/views/book/allBooks.jsp"/>
+    </definition>
+
+    <definition name="addBook" extends="default">
+        <put-attribute name="title" value="Add Book"/>
+        <put-attribute name="body" value="/WEB-INF/views/book/addBook.jsp"/>
+    </definition>
+
+    <definition name="addCategory" extends="default">
+        <put-attribute name="title" value="Add Category"/>
+        <put-attribute name="body" value="/WEB-INF/views/book/addCategory.jsp"/>
+    </definition>
+
+    <definition name="addUser" extends="default">
+        <put-attribute name="title" value="Add User"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/addUser.jsp"/>
+    </definition>
+
+    <definition name="welcom" extends="default">
+        <put-attribute name="title" value="My Library"/>
+        <put-attribute name="body" value="/WEB-INF/views/welcom.jsp"/>
+    </definition>
+
+    <definition name="allUsers" extends="default">
+        <put-attribute name="title" value="All Users"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/allUsers.jsp"/>
+    </definition>
+
+    <definition name="profileUser" extends="default">
+        <put-attribute name="title" value="Profile"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/profileUser.jsp"/>
+    </definition>
+
+    <definition name="updateBook" extends="default">
+        <put-attribute name="title" value="Update Book"/>
+        <put-attribute name="body" value="/WEB-INF/views/book/updateBook.jsp"/>
+    </definition>
+
+    <definition name="404" template="/WEB-INF/views/error/404.html"/>
+    <definition name="500" template="/WEB-INF/views/error/500.html"/>
+
+</tiles-definitions>

@@ -14,7 +14,7 @@
   <title>allBooks</title>
 </head>
 <body>
-<c:import url="layout/header.jsp"/>
+
 <table class="table table-bordered" width="60%" cellpading="3" border="1">
   <caption>Каталог книг</caption><br/>
   <thead align="center">
@@ -65,7 +65,7 @@
   </tbody>
 </table>
 <c:if test="${currentPage != 1}">
-  <td><a href="book?page=${currentPage - 1}">Previous</a></td>
+  <td><a href="/book/list/${currentPage - 1}">Previous</a></td>
 </c:if>
 <table>
   <tr>
@@ -75,16 +75,16 @@
         <td>${i}</td>
       </c:when>
       <c:otherwise>
-        <td><a href="book?page=${i}">${i}</a></td>
+        <td><a href=/book/list/${i}">${i}</a></td>
       </c:otherwise>
     </c:choose>
     </c:forEach>
   </tr>
 </table>
 <c:if test="${currentPage lt noOfPages}">
-  <td><a href="book?page=${currentPage + 1}">Next</a></td>
+  <td><a href="/book/list/${currentPage + 1}">Next</a></td>
 </c:if>
-<c:import url="layout/footer.jsp"/>
+
 </body>
 </html>
 

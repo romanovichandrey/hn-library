@@ -1,7 +1,7 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.exeptions.DaoErrorCode;
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoErrorCode;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.UserDao;
 import by.romanovich.it.pojos.User;
 import org.apache.log4j.Logger;
@@ -24,14 +24,13 @@ public class UserDaoImpl extends BaseDao<User, Long> implements UserDao {
     private static Logger log = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public User getUserByLoginAndPassword(String login, String password) throws DaoException {
+    public User getUserByLogin(String login) throws DaoException {
         User user = null;
-        String hql = "FROM User u WHERE u.login=:login AND u.password=:password";
+        String hql = "FROM User u WHERE u.login=:login";
         try {
             Query query = getSession().createQuery(hql);
             query.setParameter("login", login);
-            query.setParameter("password", password);
-            log.info("Getting user by login and password");
+            log.info("Getting user by login");
             user = (User)query.uniqueResult();
             return user;
         } catch (HibernateException e) {

@@ -1,4 +1,4 @@
-package by.romanovich.it.service.exeptions;
+package by.romanovich.it.service.exceptions;
 
 /**
  * Enuming messqge error on service layer

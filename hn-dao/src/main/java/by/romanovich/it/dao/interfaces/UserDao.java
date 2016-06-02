@@ -1,6 +1,6 @@
 package by.romanovich.it.dao.interfaces;
 
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.pojos.User;
 
 /**
@@ -12,12 +12,12 @@ import by.romanovich.it.pojos.User;
 public interface UserDao extends Dao<User, Long> {
 
     /**
-     * Getting User by login and password
+     * Getting User by login
      * @param login User login
-     * @param password User password
      * @return user
      * @throws DaoException
      */
-    User getUserByLoginAndPassword(String login, String password) throws DaoException;
+    User getUserByLogin(String login) throws DaoException;
+
 
 }

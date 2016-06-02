@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,14 +16,19 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
+@Table(name = "T_BOOK")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Book extends SuperEntity {
 
     private static final Long serialVersionUID = 1L;
 
+    @Column(name = "F_NAME")
     private String name;
 
+    @Column(name = "F_DESCRIPTION")
     private String description;
 
+    @Column(name = "F_YEARPUBLISHING")
     private String yearPublishing;
 
     @ManyToOne

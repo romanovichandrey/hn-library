@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -14,6 +15,8 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
+@Table(name = "T_CATEGORY")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Category extends SuperEntity {
 
     private static final Long serialVersionUID = 1L;

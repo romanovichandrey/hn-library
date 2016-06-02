@@ -23,7 +23,7 @@
         <hibernate.version>4.3.11.Final</hibernate.version>
         <spring.version>4.2.6.RELEASE</spring.version>
         <slf4j.version>1.7.9</slf4j.version>
-        <mysql.version>5.1.34</mysql.version>
+        <mysql.version>5.1.38</mysql.version>
         <log4j.version>1.2.17</log4j.version>
         <aspectj.version>1.8.4</aspectj.version>
         <cglib.version>3.1</cglib.version>
@@ -332,13 +332,6 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate4</artifactId>
             <version>2.5.3</version>
-        </dependency>
-
-        <!-- data base for tests-->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.191</version>
         </dependency>
 
         <dependency>

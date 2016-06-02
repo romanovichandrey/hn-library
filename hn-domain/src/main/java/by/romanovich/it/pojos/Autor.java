@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,8 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
+@Table(name = "T_AUTOR")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Autor extends SuperEntity{
 
     private static final Long serialVersionUID = 156L;

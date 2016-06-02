@@ -21,13 +21,26 @@
           class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
             <list>
-                <value>/WEB-INF/views/tiles.xml</value>
+                <value>/WEB-INF/tiles.xml</value>
             </list>
         </property>
     </bean>
     <bean id="viewsResolver"
-          class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+          class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
           p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:i18n/messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+        <property name="cookieName" value="locale"/>
+        <property name="cookieMaxAge" value="3600"/>
+    </bean>
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">

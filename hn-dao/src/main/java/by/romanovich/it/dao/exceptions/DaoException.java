@@ -1,30 +1,30 @@
-package by.romanovich.it.service.exeptions;
+package by.romanovich.it.dao.exceptions;
 
 /**
- * Create custom exception on service layer.
+ * Create custom exceptions on dao layer.
  * @author Romanovich Andrey
  * @version 1.0
  */
-public class ServiceException extends Exception {
+public class DaoException extends Exception {
 
-    private ServiceErrorCode code;
+    private DaoErrorCode code;
 
     private Object[] params;
 
     private String message;
 
-    public ServiceException(Exception e, ServiceErrorCode code, Object... params) {
+    public DaoException(Exception e, DaoErrorCode code, Object... params) {
         super(e);
         this.code = code;
         this.params = params;
-        message = String.format(code.toString(), params);
+        this.message = String.format(code.toString(), params);
     }
 
-    public ServiceErrorCode getCode() {
+    public DaoErrorCode getCode() {
         return code;
     }
 
-    public void setCode(ServiceErrorCode code) {
+    public void setCode(DaoErrorCode code) {
         this.code = code;
     }
 

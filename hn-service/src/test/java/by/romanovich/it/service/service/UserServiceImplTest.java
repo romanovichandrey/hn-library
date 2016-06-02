@@ -1,10 +1,10 @@
 package by.romanovich.it.service.service;
 
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.UserDao;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
-import by.romanovich.it.service.exeptions.ServiceException;
+import by.romanovich.it.service.exceptions.ServiceException;
 import by.romanovich.it.service.service.interfases.UserService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -115,14 +115,14 @@ public class UserServiceImplTest extends Assert {
     }
 
     /**
-     * Testing userService.getUserByLoginAndPassword()
+     * Testing userService.getUserByUserName()
      */
     @Test
-    public void testGetUserByLoginAndPassword() {
+    public void testGetUserByLogin() {
         try {
-            when(userDao.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword())).thenReturn(user1);
+            when(userDao.getUserByLogin(user1.getLogin())).thenReturn(user1);
 
-            assertEquals(user1, userService.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword()));
+            assertEquals(user1, userService.getUserByUserName(user1.getLogin()));
         }catch (DaoException e) {
             e.printStackTrace();
         } catch (ServiceException e) {

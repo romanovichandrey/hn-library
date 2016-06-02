@@ -63,9 +63,9 @@ constraint FK_AUTOR foreign key (AUTOR_ID) references t_autor (F_ID)
 )
 engine=InnoDB default charset=utf8 collate=utf8_unicode_ci;
 
-CREATE TABLE T_USERPROFILE (
-F_ID bigint(20) not null,
-F_USER_ID bigint(20) not null,
-F_ROLE VARCHAR(10) not null,
 
-)
+INSERT INTO T_CATEGORY (F_NAME) VALUE ('Роман');
+INSERT INTO T_CATEGORY (F_NAME) VALUE ('Детектив');
+INSERT INTO T_CATEGORY (F_NAME) VALUE ('Программирование');
+INSERT INTO T_CATEGORY (F_NAME) VALUE ('Атлас');
+

@@ -1,6 +1,6 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.Dao;
 import by.romanovich.it.pojos.Book;
 import org.junit.AfterClass;
@@ -72,7 +72,7 @@ public class BookDaoTest extends Assert {
 
     /**
      * Testing bookDao.add()
-     * @throws by.romanovich.it.dao.exeptions.DaoException
+     * @throws by.romanovich.it.dao.exceptions.DaoException
      */
     @Test
     public void testAdd() throws DaoException {

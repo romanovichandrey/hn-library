@@ -15,8 +15,8 @@ public abstract class SuperEntity implements Serializable {
     private static final long serialVersionUID = 4L;
 
     @Id
-    @Column(name = "F_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "F_ID")
     private Long id;
 
     public SuperEntity() {

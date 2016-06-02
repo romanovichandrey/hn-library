@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -15,6 +16,8 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Entity
+@Table(name = "T_ADRESS")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Adress implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +29,7 @@ public class Adress implements Serializable {
             parameters = @Parameter(name = "property", value = "user")
     )
     @GeneratedValue(generator = "gen")
+    @Column(name = "F_ID")
     private Long id;
 
     @Column (name = "F_STREET")

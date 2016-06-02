@@ -1,6 +1,6 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.UserDao;
 import by.romanovich.it.pojos.Adress;
 import by.romanovich.it.pojos.User;
@@ -200,17 +200,17 @@ public class UserDaoImplTest extends Assert{
     }
 
     /**
-     * Testing userDao.getUserByLoginAndPassword()
+     * Testing userDao.getUserByLogin()
      * @throws DaoException
      */
     @Test
-    public void testGetUserByLoginAndPassword() throws DaoException {
+    public void testGetUserByLogin() throws DaoException {
         User userResult = null;
         try {
             user1.setAdress(adress1);
             adress1.setUser(user1);
             userDao.add(user1);
-            userResult = userDao.getUserByLoginAndPassword(user1.getLogin(), user1.getPassword());
+            userResult = userDao.getUserByLogin(user1.getLogin());
         } catch (DaoException e) {
             e.printStackTrace();
         }

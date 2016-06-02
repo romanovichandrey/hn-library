@@ -1,7 +1,7 @@
 package by.romanovich.it.dao;
 
-import by.romanovich.it.dao.exeptions.DaoErrorCode;
-import by.romanovich.it.dao.exeptions.DaoException;
+import by.romanovich.it.dao.exceptions.DaoErrorCode;
+import by.romanovich.it.dao.exceptions.DaoException;
 import by.romanovich.it.dao.interfaces.Dao;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -15,6 +16,8 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
+@Table(name = "T_USER")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends SuperEntity {
 
     private static final Long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package by.romanovich.it.dao.exeptions;
+package by.romanovich.it.dao.exceptions;
 
 /**
  * Enuming messqge error on dao layer

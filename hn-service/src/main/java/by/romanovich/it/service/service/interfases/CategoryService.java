@@ -1,7 +1,7 @@
 package by.romanovich.it.service.service.interfases;
 
 import by.romanovich.it.pojos.Category;
-import by.romanovich.it.service.exeptions.ServiceException;
+import by.romanovich.it.service.exceptions.ServiceException;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface CategoryService {
      *
      * @param category
      * @return true if category successfully is updated.
-     * @throws by.romanovich.it.service.exeptions.ServiceException
+     * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     Boolean updateCategory(Category category) throws ServiceException;
 
@@ -27,7 +27,7 @@ public interface CategoryService {
      *
      * @param id Category id
      * @return Category
-     * @throws by.romanovich.it.service.exeptions.ServiceException
+     * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     Category getCategoryById(Long id) throws ServiceException;
 
@@ -35,7 +35,7 @@ public interface CategoryService {
      * This method getting all category
      *
      * @return list category
-     * @throws by.romanovich.it.service.exeptions.ServiceException
+     * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     List<Category> getAllCategories() throws ServiceException;
 
@@ -44,7 +44,7 @@ public interface CategoryService {
      *
      * @param category
      * @return true if category successfully is delete.
-     * @throws by.romanovich.it.service.exeptions.ServiceException
+     * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     Boolean deleteCategory(Category category) throws ServiceException;
 
@@ -53,7 +53,7 @@ public interface CategoryService {
      *
      * @param category
      * @return true if category successfully is save.
-     * @throws by.romanovich.it.service.exeptions.ServiceException
+     * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     Boolean saveCategory(Category category) throws ServiceException;
 }
