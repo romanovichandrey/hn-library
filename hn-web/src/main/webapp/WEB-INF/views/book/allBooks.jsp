@@ -57,8 +57,8 @@
       <td>${book.user.lastname}</td>
       <c:if test="${book.user.id eq user.id}">
         <td>
-          <a href="updateBook?name=${book.name}&description=${book.description}&book_date=${book.yearPublishing}&id_book=${book.id}&name_cat=${book.category.name}">Изменить</a>
-          <a href="deleteBook?id_book=${book.id}">Удалить</a></td>
+          <a href="/book/updateBook?name=${book.name}&description=${book.description}&book_date=${book.yearPublishing}&id_book=${book.id}&name_cat=${book.category.name}">Изменить</a>
+          <a href="/book/deleteBook?id_book=${book.id}">Удалить</a></td>
       </c:if>
     </tr>
   </c:forEach>

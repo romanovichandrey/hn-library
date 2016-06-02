@@ -67,4 +67,6 @@ public interface BookService {
      * @throws by.romanovich.it.service.exceptions.ServiceException
      */
     Long getRowCountBooks() throws ServiceException;
+
+    public List<Book> findBook(String param) throws ServiceException;
 }

@@ -14,7 +14,9 @@ public enum WebErrorCode {
     NC_WEB_003("Cannot save category"),
     NC_WEB_004("Cannot save user"),
     NC_WEB_005("Cannot get user by login"),
-    NC_WEB_006("Cannot get all users");
+    NC_WEB_006("Cannot get all users"),
+    NC_WEB_007("Cannot deleting book by id"),
+    NC_WEB_008("Cannot find book");
 
 
     private final String value;

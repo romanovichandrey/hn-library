@@ -132,5 +132,35 @@ public class BookController {
         }
         return "updateBook";
     }
+    @RequestMapping(value = "/deleteBook", method = RequestMethod.GET)
+    public String deleteBook(@RequestParam String id_book) throws WebException {
+        Long idResult = Long.parseLong(id_book);
+        try {
+            bookService.deleteBook(idResult);
+        } catch (ServiceException e) {
+            log.info("Cannot deleting book by id" + e);
+            throw new WebException(e, WebErrorCode.NC_WEB_007);
+        }
+        return "redirect:/book/list";
+    }
+
+    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+    public String findBook(@RequestParam("search") String search,
+                              Model model) throws WebException {
+        List<Book> bookList;
+        try {
+                bookList = bookService.findBook(search);
+            if (bookList.size() == 0) {
+                log.info("Cannot find book");
+                throw new WebException(WebErrorCode.NC_WEB_008);
+            }
+        } catch (ServiceException e) {
+            log.info("Error with find books");
+            throw new WebException(e, WebErrorCode.NC_WEB_001);
+        }
+        log.info("Finded books successfully" + bookList);
+        model.addAttribute("");
+        return "allBook";
+    }
 
 }

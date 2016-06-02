@@ -52,4 +52,5 @@
     <definition name="404" template="/WEB-INF/views/error/404.html"/>
     <definition name="500" template="/WEB-INF/views/error/500.html"/>
 
+
 </tiles-definitions>

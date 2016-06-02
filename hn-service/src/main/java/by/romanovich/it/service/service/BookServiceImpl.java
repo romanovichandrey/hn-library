@@ -114,4 +114,20 @@ public class BookServiceImpl implements BookService {
             throw new ServiceException(e, ServiceErrorCode.HN_SERV_016);
         }
     }
+
+    @Override
+    public List<Book> findBook(String param) throws ServiceException {
+        List<Book> bookList;
+        param = '%' + param + '%';
+        try {
+            Query query = bookDao.getQuery("from Book b where b.name like  :param");
+            query.setParameter("param", param);
+            bookList = query.list();
+            log.info("Finding books" + bookList);
+        } catch (DaoException e) {
+            throw new ServiceException(e, ServiceErrorCode.HN_SERV_000);
+        }
+        return bookList;
+    }
+
 }
