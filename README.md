@@ -1,7 +1,7 @@
 # hn-library
 © Andrei Romanovich
 
-Training project LIBRARY in IT academy (Java Developer program).<br/>
+# Training project LIBRARY in IT academy (Java Developer program).<br/>
 Project has a three-tier architecture.<br/>
 Build-utility - Maven.<br/>
 Frameworks - Hibernate, Spring, Apache Tiles.<br/>
