@@ -20,4 +20,6 @@ You can see the following directories:
 
 There are two roles – the user and the admin.
 #user
+Each registered user has a profile that it can be edited. All users can view and add books to the library. For the user who added the book, open it right to delete or edit.
 #admin
+The administrator can see a list of all the books in the library and the same list is only for a specific user ID reader. The administrator can add and delete their books. The administrator can view the list of users registered in the library.
